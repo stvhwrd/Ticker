@@ -50,4 +50,8 @@ The team names must match the team names displayed  on [http://www.nhl.com/ice/s
 
 # Requirements
 
-BeautifulSoup is required. To install it run `pip install beautifulsoup4`
+* BeautifulSoup
+    * `pip install beautifulsoup4`
+
+* Requests
+    * `pip install requests`
