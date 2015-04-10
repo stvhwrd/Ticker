@@ -4,11 +4,13 @@
 # You must enter the team name exactly as it appears
 # on http://www.nhl.com/ice/scores.htm
 
+import json
 import os
 import platform
 import sys
 import time
 import urllib2
+import requests
 from bs4 import BeautifulSoup
 
 refresh_time = 60  # Refresh time (Seconds)
@@ -69,6 +71,36 @@ def get_score(team):
         return -1
 
 
+def main_api():
+    api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
+    api_headers = { 'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm' }
+    r = requests.get(api_url, headers = api_headers)
+    
+    # We get back json data with some JS around it, gotta remove the JS
+    json_data = r.text
+
+    # Remove the leading JS
+    json_data = json_data.replace('loadScoreboard(', '')
+
+    # Remove the trailing ')'
+    json_data = json_data[:-1]
+
+    data = json.loads(json_data)
+    for key in data:
+        if key == 'games':
+            for test in data[key]:
+                atn = test['atn']
+                atv = test['atv']
+                ats = test['ats']
+
+                htn = test['htn']
+                htv = test['htv']
+                hts = test['hts']
+
+                print atn + ' ' + atv + ': ' + ats
+                print htn + ' ' + htv + ': ' + hts
+
+
 def print_header():
     print '======================'
     print '= Current NHL Scores ='
@@ -110,3 +142,4 @@ def clear_screen():
 
 if __name__ == '__main__':
     main()
+    # main_api()
