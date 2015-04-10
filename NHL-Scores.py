@@ -16,6 +16,11 @@ score_url = 'http://www.nhl.com/ice/scores.htm'
 games = [['New Jersey', 'Tampa Bay'], ['NY Rangers', 'Ottawa'], ['Minnesota', 'Nashville']]
 
 def main():
+
+    clear_screen()
+    print_ascii_art()
+    time.sleep(3)
+
     while True:
         clear_screen()
 
@@ -68,6 +73,32 @@ def print_header():
     print '======================'
     print '= Current NHL Scores ='
     print '======================'
+
+
+def print_ascii_art():
+    # Thanks Cheshirecat from http://www.retrojunkie.com/asciiart/sports/hockey.htm !
+    print "                        .---."
+    print "                       /_____\\"
+    print "                      _HH.H.HH"
+    print "       _          _-\"\" WHHHHHW\"\"--__"
+    print "       \\\\      _-\"   __\\VW=WV/__   /\"\"."
+    print "        \\\\  _-\" \\__--\"  \"-_-\"   \"\"\"    \"_"
+    print "         \\\\/ PhH  _                      \"\""
+    print "          \\\\----_/_|     ___      /\"\\  T\"\"\\====-"
+    print "           \\\\ /\"-._     |%|H|    (   \"\\|) | /  .:)"
+    print "            \\/     /    |-+-|     \\    |_ J .:::-'"
+    print "            /     /     |H|%|  _-' '-._  \" )/;\""
+    print "           /     / \\    __    (  \\ \\   \\   \""
+    print "          /     /\\/ '. /  \\   \\ \\ \\ _- \\"
+    print "          \"'-._/  \\/  \\    \"-_ \\ -\"\" _- \\"
+    print "         _,'\\\\  \\  \\/  )      \"-, -\"\"    \\"
+    print "      _,'_- _ \\\\ \\  \\,'          \\ \\_\\_\\  \\"
+    print "    ,'    _-    \\_\\  \\            \\ \\_\\_\\  \\"
+    print "    \\_ _-   _- _,' \\  \\            \\ \"\"\"\"   )"
+    print "     C\\_ _- _,'     \\  \"--------.   L_\"\"\"\"_/"
+    print "      \" \\/-'         \"-_________|     '\"-Y"
+    print ""
+    print "             NHL Scores by John Freed"
 
 
 def clear_screen():
