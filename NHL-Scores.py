@@ -25,7 +25,7 @@ def main():
                 if team_score != -1:
                     print team + ': ' + team_score
                 else:
-                    print 'Error occurred'
+                    print 'Error occurred. Team: ' + team
 
             print ''
 
