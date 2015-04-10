@@ -7,6 +7,7 @@
 import urllib2
 import time
 import os
+import sys
 from bs4 import BeautifulSoup
 
 refresh_time = 60  # Refresh time (Seconds)
@@ -28,8 +29,12 @@ def main():
                     print 'Error occurred. Team: ' + team
 
             print ''
+            print ''
 
-        time.sleep(refresh_time)
+        # Perform the sleep
+        for x in range(0, refresh_time):
+            sys.stdout.write("Waiting... " + str(x) + "/" + str(refresh_time) + "\r")
+            time.sleep(1)
 
 
 def get_score(team):
