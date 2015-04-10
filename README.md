@@ -1,5 +1,7 @@
 # NHL Scores
 
+[![Join the chat at https://gitter.im/jtf323/NHL-Scores](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jtf323/NHL-Scores?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 A quick little python script I wrote for getting current NHL scores.
 
 # Usage
