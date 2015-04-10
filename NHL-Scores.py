@@ -19,7 +19,7 @@ def main():
     while True:
         clear_screen()
 
-        # Try to make sure the user set everythign up correctly
+        # Try to make sure the user set everything up correctly
         for match in games:
             if len(match) > 2:
                 print 'It looks like you have more than 2 teams playing each other in a single game!'
