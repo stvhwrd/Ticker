@@ -19,8 +19,17 @@ def main():
     while True:
         clear_screen()
 
+        # Try to make sure the user set everythign up correctly
+        for match in games:
+            if len(match) > 2:
+                print 'It looks like you have more than 2 teams playing each other in a single game!'
+                print 'Check your "games" variable and try again.'
+                sys.exit()
+
+        # Check the scores!
         for match in games:
             print_header()
+
             for team in match:
                 team_score = get_score(team)
 
