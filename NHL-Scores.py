@@ -4,10 +4,11 @@
 # You must enter the team name exactly as it appears
 # on http://www.nhl.com/ice/scores.htm
 
-import urllib2
-import time
 import os
+import platform
 import sys
+import time
+import urllib2
 from bs4 import BeautifulSoup
 
 refresh_time = 60  # Refresh time (Seconds)
@@ -61,7 +62,10 @@ def print_header():
 
 
 def clear_screen():
-    os.system('cls')  # This is windows specific, needs to be changed
+    if platform.system() == 'Windows':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
 if __name__ == '__main__':
