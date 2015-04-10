@@ -29,7 +29,8 @@ def main():
                     print 'Error occurred. Team: ' + team
 
             print ''
-            print ''
+
+        print ''
 
         # Perform the sleep
         for x in range(0, refresh_time):
