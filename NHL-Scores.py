@@ -17,8 +17,8 @@ refresh_time = 60  # Refresh time (Seconds)
 score_url = 'http://www.nhl.com/ice/scores.htm'
 games = [['New Jersey', 'Tampa Bay'], ['NY Rangers', 'Ottawa'], ['Minnesota', 'Nashville']]
 
-def main():
 
+def main():
     clear_screen()
     print_ascii_art()
     time.sleep(3)
@@ -61,10 +61,10 @@ def get_score(team):
     page_html = page.read()
     soup = BeautifulSoup(page_html)
 
-    team_list = soup.find('a', text = team)
+    team_list = soup.find('a', text=team)
 
     try:
-        for td in team_list.parent.find_next_siblings('td', class_ = 'total'):
+        for td in team_list.parent.find_next_siblings('td', class_='total'):
             current_score = td.text
             return current_score
     except:
@@ -73,8 +73,8 @@ def get_score(team):
 
 def main_api():
     api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
-    api_headers = { 'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm' }
-    r = requests.get(api_url, headers = api_headers)
+    api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm'}
+    r = requests.get(api_url, headers=api_headers)
     
     # We get back json data with some JS around it, gotta remove the JS
     json_data = r.text
