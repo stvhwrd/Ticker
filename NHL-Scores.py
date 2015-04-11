@@ -26,33 +26,48 @@ def main():
     while True:
         clear_screen()
 
-        # Try to make sure the user set everything up correctly
-        for match in games:
-            if len(match) > 2:
-                print 'It looks like you have more than 2 teams playing each other in a single game!'
-                print 'Check your "games" variable and try again.'
-                sys.exit()
+        api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
+        api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm'}
+        r = requests.get(api_url, headers=api_headers)
+        
+        # We get back json data with some JS around it, gotta remove the JS
+        json_data = r.text
 
-        # Check the scores!
-        for match in games:
-            print_header()
+        # Remove the leading JS
+        json_data = json_data.replace('loadScoreboard(', '')
 
-            for team in match:
-                team_score = get_score(team)
+        # Remove the trailing ')'
+        json_data = json_data[:-1]
 
-                if team_score != -1:
-                    print team + ': ' + team_score
-                else:
-                    print 'Error occurred. Team: ' + team
+        data = json.loads(json_data)
+        for key in data:
+            if key == 'games':
+                for game_info in data[key]:
+                    tsc = game_info['tsc']
 
-            print ''
+                    away_team_name = game_info['atn']
+                    atv = game_info['atv']
+                    away_team_score = game_info['ats']
 
-        print ''
+                    home_team_name = game_info['htn']
+                    htv = game_info['htv']
+                    home_team_score = game_info['hts']
+
+                    # Only show games that have occurred or are in progress
+                    if away_team_score != '' and home_team_score != '':
+                        header_text = away_team_name + ' @ ' + home_team_name
+                        
+                        # Check if the game is over and has a final score
+                        if tsc != '':
+                            header_text += ' (Final)'
+
+                        print header_text
+                        print away_team_name + ': ' + away_team_score
+                        print home_team_name + ': ' + home_team_score
+                        print ''
 
         # Perform the sleep
-        for x in range(0, refresh_time):
-            sys.stdout.write("Waiting... " + str(x) + "/" + str(refresh_time) + "\r")
-            time.sleep(1)
+        time.sleep(refresh_time)
 
 
 def get_score(team):
@@ -69,36 +84,6 @@ def get_score(team):
             return current_score
     except:
         return -1
-
-
-def main_api():
-    api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
-    api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm'}
-    r = requests.get(api_url, headers=api_headers)
-    
-    # We get back json data with some JS around it, gotta remove the JS
-    json_data = r.text
-
-    # Remove the leading JS
-    json_data = json_data.replace('loadScoreboard(', '')
-
-    # Remove the trailing ')'
-    json_data = json_data[:-1]
-
-    data = json.loads(json_data)
-    for key in data:
-        if key == 'games':
-            for test in data[key]:
-                atn = test['atn']
-                atv = test['atv']
-                ats = test['ats']
-
-                htn = test['htn']
-                htv = test['htv']
-                hts = test['hts']
-
-                print atn + ' ' + atv + ': ' + ats
-                print htn + ' ' + htv + ': ' + hts
 
 
 def print_header():
@@ -142,4 +127,3 @@ def clear_screen():
 
 if __name__ == '__main__':
     main()
-    # main_api()
