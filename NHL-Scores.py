@@ -1,14 +1,11 @@
-# Author: John Freed
-# Python Version 2.7
-
-# You must enter the team name exactly as it appears
-# on http://www.nhl.com/ice/scores.htm
+# All credit to @jtf323 for the original script which I have changed.
 
 import json
 import os
 import platform
 import sys
 import time
+import datetime
 import requests
 
 refresh_time = 60  # Refresh time (Seconds)
@@ -18,8 +15,8 @@ api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6
 
 def main():
     clear_screen()
-    print_ascii_art()
-    time.sleep(3)
+    now = datetime.datetime.now()
+    today = "" + time.strftime("%A") + " " + "%s/%s" % (now.month, now.day)
 
     while True:
         clear_screen()
@@ -39,65 +36,48 @@ def main():
         for key in data:
             if key == 'games':
                 for game_info in data[key]:
-                    tsc = game_info['tsc']
+                    gameID = game_info['id']
+                    gameClock = game_info['ts']
+                    status = game_info['bs']
 
                     away_team_name = game_info['atn']
-                    atv = game_info['atv']
                     away_team_score = game_info['ats']
 
                     home_team_name = game_info['htn']
-                    htv = game_info['htv']
                     home_team_score = game_info['hts']
 
-                    # Only show games that have occurred or are in progress
-                    if away_team_score != '' and home_team_score != '':
+                    # Only show games that are scheduled for today or still in progress
+                    if gameClock.lower() == today.lower() or status == 'LIVE':
                         header_text = away_team_name + ' @ ' + home_team_name
                         
-                        # Check if the game is over and has a final score or is in progress
-                        if tsc == 'final':
-                            header_text += ' (Final)'
-                        if tsc == 'progress':
-                            header_text += ' (In Progress)'
+                        # Check if the game is over, hasn't started yet, or is still in progress
+                        if 'FINAL' in status:
+                            header_text += ' (' + status + ')'    # example (FINAL OT)                        
+                        elif 'DAY' in gameClock:
+                            header_text += ' (' + gameClock + ', ' + status + ' EST)'
+                        else:
+                            header_text += ' (' + gameClock + ' period)'     # example output: (10:34 3rd period)
 
                         print header_text
-                        print away_team_name + ': ' + away_team_score
-                        print home_team_name + ': ' + home_team_score
+
+                        #highlight the winner green, loser red
+                        if game_info['atc'] == 'winner':
+                            print bcolors.Green + away_team_name + ': ' + away_team_score + bcolors.Color_Off
+                            print bcolors.Red + home_team_name + ': ' + home_team_score + bcolors.Color_Off 
+                        
+                        elif game_info['htc'] == 'winner':
+                            print bcolors.Red + away_team_name + ': ' + away_team_score + bcolors.Color_Off 
+                            print bcolors.Green + home_team_name + ': ' + home_team_score + bcolors.Color_Off
+                        
+                        else:
+                            print bcolors.Yellow + away_team_name + ': ' + away_team_score + bcolors.Color_Off 
+                            print bcolors.Yellow + home_team_name + ': ' + home_team_score + bcolors.Color_Off                               
+                        
+                        print ''
                         print ''
 
         # Perform the sleep
         time.sleep(refresh_time)
-
-
-def print_header():
-    print '======================'
-    print '= Current NHL Scores ='
-    print '======================'
-
-
-def print_ascii_art():
-    # Thanks Cheshirecat from http://www.retrojunkie.com/asciiart/sports/hockey.htm !
-    print "                        .---."
-    print "                       /_____\\"
-    print "                      _HH.H.HH"
-    print "       _          _-\"\" WHHHHHW\"\"--__"
-    print "       \\\\      _-\"   __\\VW=WV/__   /\"\"."
-    print "        \\\\  _-\" \\__--\"  \"-_-\"   \"\"\"    \"_"
-    print "         \\\\/ PhH  _                      \"\""
-    print "          \\\\----_/_|     ___      /\"\\  T\"\"\\====-"
-    print "           \\\\ /\"-._     |%|H|    (   \"\\|) | /  .:)"
-    print "            \\/     /    |-+-|     \\    |_ J .:::-'"
-    print "            /     /     |H|%|  _-' '-._  \" )/;\""
-    print "           /     / \\    __    (  \\ \\   \\   \""
-    print "          /     /\\/ '. /  \\   \\ \\ \\ _- \\"
-    print "          \"'-._/  \\/  \\    \"-_ \\ -\"\" _- \\"
-    print "         _,'\\\\  \\  \\/  )      \"-, -\"\"    \\"
-    print "      _,'_- _ \\\\ \\  \\,'          \\ \\_\\_\\  \\"
-    print "    ,'    _-    \\_\\  \\            \\ \\_\\_\\  \\"
-    print "    \\_ _-   _- _,' \\  \\            \\ \"\"\"\"   )"
-    print "     C\\_ _- _,'     \\  \"--------.   L_\"\"\"\"_/"
-    print "      \" \\/-'         \"-_________|     '\"-Y"
-    print ""
-    print "             NHL Scores by John Freed"
 
 
 def clear_screen():
@@ -106,6 +86,16 @@ def clear_screen():
     else:
         os.system('clear')
 
+
+class bcolors:
+    Red='\033[0;31m'        # Red
+    Green='\033[0;32m'      # Green
+    Yellow='\033[0;33m'     # Yellow
+    Blue='\033[0;34m'       # Blue
+    Purple='\033[0;35m'     # Purple
+    Cyan='\033[0;36m'       # Cyan
+    White='\033[0;37m'      # White
+    Color_Off='\033[0m'     # Text Reset
 
 if __name__ == '__main__':
     main()
