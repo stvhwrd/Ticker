@@ -1,4 +1,5 @@
-# All credit to @jtf323 for the original script which I have changed.
+# Original Author: @jtf323
+# Contributor: @stvhwrd
 
 import json
 import os
