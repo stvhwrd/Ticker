@@ -53,9 +53,11 @@ def main():
                     if away_team_score != '' and home_team_score != '':
                         header_text = away_team_name + ' @ ' + home_team_name
                         
-                        # Check if the game is over and has a final score
-                        if tsc != '':
+                        # Check if the game is over and has a final score or is in progress
+                        if tsc == 'final':
                             header_text += ' (Final)'
+                        if tsc == 'progress':
+                            header_text += ' (In Progress)'
 
                         print header_text
                         print away_team_name + ': ' + away_team_score
