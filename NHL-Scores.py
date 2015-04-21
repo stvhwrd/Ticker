@@ -7,6 +7,7 @@ import sys
 import time
 import datetime
 import requests
+from colorama import init, Fore, Back, Style
 
 refresh_time = 60  # Refresh time (Seconds)
 api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
@@ -62,16 +63,16 @@ def main():
 
                         #highlight the winner green, loser red
                         if game_info['atc'] == 'winner':
-                            print bcolors.Green + away_team_name + ': ' + away_team_score + bcolors.Color_Off
-                            print bcolors.Red + home_team_name + ': ' + home_team_score + bcolors.Color_Off 
+                            print Fore.GREEN + away_team_name + ': ' + away_team_score + Fore.RESET
+                            print Fore.RED + home_team_name + ': ' + home_team_score + Fore.RESET 
                         
                         elif game_info['htc'] == 'winner':
-                            print bcolors.Red + away_team_name + ': ' + away_team_score + bcolors.Color_Off 
-                            print bcolors.Green + home_team_name + ': ' + home_team_score + bcolors.Color_Off
+                            print Fore.RED + away_team_name + ': ' + away_team_score + Fore.RESET 
+                            print Fore.GREEN + home_team_name + ': ' + home_team_score + Fore.RESET
                         
                         else:
-                            print bcolors.Yellow + away_team_name + ': ' + away_team_score + bcolors.Color_Off 
-                            print bcolors.Yellow + home_team_name + ': ' + home_team_score + bcolors.Color_Off                               
+                            print Fore.YELLOW + away_team_name + ': ' + away_team_score + Fore.RESET 
+                            print Fore.YELLOW + home_team_name + ': ' + home_team_score + Fore.RESET                               
                         
                         print ''
                         print ''
@@ -87,15 +88,6 @@ def clear_screen():
         os.system('clear')
 
 
-class bcolors:
-    Red='\033[0;31m'        # Red
-    Green='\033[0;32m'      # Green
-    Yellow='\033[0;33m'     # Yellow
-    Blue='\033[0;34m'       # Blue
-    Purple='\033[0;35m'     # Purple
-    Cyan='\033[0;36m'       # Cyan
-    White='\033[0;37m'      # White
-    Color_Off='\033[0m'     # Text Reset
-
 if __name__ == '__main__':
+    init()
     main()
