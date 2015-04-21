@@ -1,6 +1,5 @@
 # NHL Scores
 
-[![Join the chat at https://gitter.im/stvhwrd/NHL-Scores](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/jtf323/NHL-Scores?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 A Python script written by [@jtf323](https://www.github.com/jtf323), tailored and tweaked to suit my needs.  I wanted the output display to be very simple so as to be useful in programs like [Conky](http://conky.sourceforge.net/) and [GeekTool](http://projects.tynsoe.org/en/geektool/).  
 
