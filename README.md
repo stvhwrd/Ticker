@@ -5,7 +5,7 @@ A Python script to display the score of current and recently finished NHL games 
 
 The winners of completed games are displayed in green and the losers in red, while games in progress have both teams highlighted in yellow.  
 
-![Example of finished games](https://github.com/stvhwrd/NHL-Scores/blob/master/completeGames.png)
+![Example of finished games](https://github.com/jtf323/NHL-Scores/blob/master/completeGames.png)
 
 ## Requirements
 * Python 2.7
