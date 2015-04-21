@@ -11,7 +11,7 @@ The winners of completed games are displayed in green and the losers in red, whi
 * Python 2.7
 * Requests
     * `pip install requests`
- * Colorama
+* Colorama
     * `pip install colorama`
 
 ## Usage
