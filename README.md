@@ -25,4 +25,7 @@ example:
 <br>
 <br>
 
-######tested with Python 2.7.9 on Apple MacBook Pro (Late 2011) running OS X 10.10.3
+######Tested on
+* Apple MacBook Pro (Late 2011) running OS X 10.10.3 with Python 2.7.9
+* Windows 7 x64 with Python 2.7.9
+* Ubuntu 14.04 x32 with Python 2.7.6
