@@ -1,5 +1,4 @@
-# Author: @jtf323
-# Contributor: @stvhwrd
+# All credit to @jtf323 for the original script which I have changed.
 
 import json
 import os
@@ -57,22 +56,26 @@ def main():
                         away_team_locale = 'New York'
 
                     # Only show games that are scheduled for today or still in progress
-                    if game_clock.lower() == today.lower() or status == 'LIVE':
+                    if game_clock=='TODAY' or game_clock.lower() == today.lower() or status == 'LIVE':
                         header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
                         
-                        # Check if the game is over, hasn't started yet, or is still in progress
-                        if 'FINAL' in status:
-                            header_text += '\n(' + status + ')'    # example (FINAL OT)                        
-                        elif 'DAY' in game_clock:
-                            header_text += '\n(' + game_clock + ', ' + status + ' EST)' # example (TUESDAY 4/21, 7:00 PM EST)
-                        elif game_info['tsc'] == 'critical':
-                            header_text += Fore.RED + '\n(' + game_clock + ' period)' + Fore.RESET    # example output: (10:34 3rd period)
+                        # Different displays for a game that is over, hasn't started yet, or is still in progress
+
+                        if 'FINAL' in status:   # example (FINAL OT) 
+                            header_text += '\n(' + status + ')'                           
+                        
+                        elif 'DAY' in game_clock:   # example (TUESDAY 4/21, 7:00 PM EST)
+                            header_text += '\n(' + game_clock + ', ' + status + ' EST)'
+                        
+                        elif game_info['tsc'] == 'critical':    # example output: (1:59 3rd period) in RED
+                            header_text += Fore.RED + '\n(' + game_clock + ' period)' + Fore.RESET
+                        
                         else:
                             header_text += '\n(' + game_clock + ' period)'     # example (10:34 3rd period)
 
                         print header_text
 
-                        #highlight the winner = green, loser = red, still playing = yellow
+                        # highlight the winner = green, loser = red, still playing = yellow
                         if game_info['atc'] == 'winner':
                             print Fore.GREEN + away_team_name + ': ' + away_team_score + Fore.RESET
                             print Fore.RED + home_team_name + ': ' + home_team_score + Fore.RESET 
@@ -85,9 +88,8 @@ def main():
                             print Fore.YELLOW + away_team_name + ': ' + away_team_score + Fore.RESET 
                             print Fore.YELLOW + home_team_name + ': ' + home_team_score + Fore.RESET                               
                         
-                        print ''
-                        print ''
-
+                        print '\n'
+                    
         # Perform the sleep
         time.sleep(refresh_time)
 
