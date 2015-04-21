@@ -8,7 +8,6 @@ import time
 import datetime
 import requests
 
-
 refresh_time = 60  # Refresh time (Seconds)
 api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
 api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm'}
@@ -18,8 +17,6 @@ def main():
     clear_screen()
     now = datetime.datetime.now()
     today = "" + time.strftime("%A") + " " + "%s/%s" % (now.month, now.day)
-    weekdays = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
-
 
     while True:
         clear_screen()
@@ -49,17 +46,17 @@ def main():
                     home_team_name = game_info['htn']
                     home_team_score = game_info['hts']
 
-                    # Only show games that were played today or are in progress
+                    # Only show games that are scheduled for today or still in progress
                     if gameClock.lower() == today.lower() or status == 'LIVE':
                         header_text = away_team_name + ' @ ' + home_team_name
                         
-                        # Check if the game is over and has a final score, or is still in progress
+                        # Check if the game is over, hasn't started yet, or is still in progress
                         if 'FINAL' in status:
                             header_text += ' (' + status + ')'    # example (FINAL OT)                        
                         elif 'DAY' in gameClock:
                             header_text += ' (' + gameClock + ', ' + status + ' EST)'
                         else:
-                            header_text += ' (' + gameClock + ' PERIOD)'     # example output: (10:34 3rd PERIOD)
+                            header_text += ' (' + gameClock + ' period)'     # example output: (10:34 3rd period)
 
                         print header_text
 
