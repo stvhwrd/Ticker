@@ -1,5 +1,4 @@
-# You must enter the team name exactly as it appears
-# on http://www.nhl.com/ice/scores.htm
+# All credit to @jtf323 for the original script which I have changed.
 
 import json
 import os
@@ -19,6 +18,8 @@ def main():
     clear_screen()
     now = datetime.datetime.now()
     today = "" + time.strftime("%A") + " " + "%s/%s" % (now.month, now.day)
+    weekdays = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY']
+
 
     while True:
         clear_screen()
@@ -55,6 +56,8 @@ def main():
                         # Check if the game is over and has a final score, or is still in progress
                         if 'FINAL' in status:
                             header_text += ' (' + status + ')'    # example (FINAL OT)                        
+                        elif 'DAY' in gameClock:
+                            header_text += ' (' + gameClock + ', ' + status + ' EST)'
                         else:
                             header_text += ' (' + gameClock + ' PERIOD)'     # example output: (10:34 3rd PERIOD)
 
@@ -64,12 +67,16 @@ def main():
                         if game_info['atc'] == 'winner':
                             print bcolors.Green + away_team_name + ': ' + away_team_score + bcolors.Color_Off
                             print bcolors.Red + home_team_name + ': ' + home_team_score + bcolors.Color_Off 
+                        
                         elif game_info['htc'] == 'winner':
                             print bcolors.Red + away_team_name + ': ' + away_team_score + bcolors.Color_Off 
                             print bcolors.Green + home_team_name + ': ' + home_team_score + bcolors.Color_Off
+                        
                         else:
                             print bcolors.Yellow + away_team_name + ': ' + away_team_score + bcolors.Color_Off 
                             print bcolors.Yellow + home_team_name + ': ' + home_team_score + bcolors.Color_Off                               
+                        
+                        print ''
                         print ''
 
         # Perform the sleep
@@ -81,6 +88,7 @@ def clear_screen():
         os.system('cls')
     else:
         os.system('clear')
+
 
 class bcolors:
     Red='\033[0;31m'        # Red
