@@ -1,7 +1,7 @@
 # NHL Scores
 
 
-A Python script written by [@jtf323](https://www.github.com/jtf323), tailored and tweaked to suit my needs.  I wanted the output display to be very simple so as to be useful in programs like [Conky](http://conky.sourceforge.net/) and [GeekTool](http://projects.tynsoe.org/en/geektool/).  
+A Python script to display the score of current and recently finished NHL games so as to be useful in programs like [Conky](http://conky.sourceforge.net/) and [GeekTool](http://projects.tynsoe.org/en/geektool/).  
 
 The winners of completed games are displayed in green and the losers in red, while games in progress have both teams highlighted in yellow.  
 
