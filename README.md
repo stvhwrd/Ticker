@@ -6,7 +6,7 @@ A Python script written by [@jtf323](https://www.github.com/jtf323), tailored an
 
 The winners of completed games are displayed in green and the losers in red, while games in progress have both teams highlighted in yellow.  
 
-
+![Example of finished games](https://github.com/stvhwrd/NHL-Scores/blob/master/completeGames.png)
 
 ## Requirements
 * Python 2.7
