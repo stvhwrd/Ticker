@@ -22,11 +22,11 @@ def main():
 
     # Today's date
     t = datetime.datetime.now()
-    today = "" + t.strftime("%A") + " " + "%s/%s" % (t.month, t.day)
+    todays_date = "" + t.strftime("%A") + " " + "%s/%s" % (t.month, t.day)
     
     # Yesterday's date
     y = t - datetime.timedelta(days=1)
-    yesterday = "" + y.strftime("%A") + " " + "%s/%s" % (y.month, y.day)
+    yesterdays_date = "" + y.strftime("%A") + " " + "%s/%s" % (y.month, y.day)
 
 
     while True:
@@ -85,13 +85,15 @@ def main():
                     if 'leafs' in home_team_name:
                         home_team_name = 'Maple Leafs'
 
+
                 # Show games from today AND yesterday
-                    if (yesterday or today) in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
+                    if yesterdays_date in game_clock.title() or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
                 
                 #--- OR if you'd rather see only scores from today ---#
                 
                 # Only show games from today
-                    #if (today or 'Today') in game_clock.title() or 'LIVE' in status:
+                    #if todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
+
                         header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
                         
 
@@ -107,7 +109,7 @@ def main():
 
                         # last 5 minutes of game
                         elif 'critical' in game_stage:  # example output: (1:59 3rd PERIOD) **in RED**
-                            header_text += Fore.RED + '\n(' + game_clock + ' PERIOD)' + Fore.RESET
+                            header_text += '\n(' + Fore.RED +  game_clock  + ' PERIOD'+ Fore.RESET + ')'
                         
                         # game underway
                         else:                           # example (10:34 1st PERIOD)
