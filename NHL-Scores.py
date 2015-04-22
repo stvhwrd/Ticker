@@ -135,7 +135,7 @@ def main():
                             print Fore.RED + home_team_name + ': ' + home_team_score + Fore.RESET
 
                         # Game still underway
-                        elif ('progress' or 'critical') in game_info['tsc']:
+                        elif 'progress' in game_stage or 'critical' in game_stage:
                             print Fore.GREEN + away_team_name + ': ' + away_team_score
                             print home_team_name + ': ' + home_team_score + Fore.RESET
 
