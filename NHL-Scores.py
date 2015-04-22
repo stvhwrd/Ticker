@@ -106,12 +106,16 @@ def main():
                         # upcoming game
                         elif 'DAY' in game_clock:       # example (TUESDAY 4/21, 7:00 PM EST)
                             header_text += '\n(' + game_clock + ', ' + status + ' EST)'
-
+                        
+                        # pre game
+                        elif 'PRE GAME' in game_clock:       # example (PRE GAME)
+                            header_text += '\n(' + game_clock + ')'
+                        
                         # last 5 minutes of game
                         elif 'critical' in game_stage:  # example output: (1:59 3rd PERIOD) **in RED**
                             header_text += '\n(' + Fore.RED +  game_clock  + ' PERIOD'+ Fore.RESET + ')'
                         
-                        # game underway
+                        # any other time in game
                         else:                           # example (10:34 1st PERIOD)
                             header_text += '\n(' + game_clock + ' PERIOD)'
 
