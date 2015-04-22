@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Original Author: @jtf323
 # Contributor: @stvhwrd
 
