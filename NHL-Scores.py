@@ -18,7 +18,7 @@ api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6
 def main():
     clear_screen()
 
-# Format dates to match NHL API style:
+    # Format dates to match NHL API style:
 
     # Today's date
     t = datetime.datetime.now()
@@ -53,13 +53,13 @@ def main():
                     game_stage = game_info['tsc']
                     status = game_info['bs']
 
-                    away_team_locale = game_info['atn']
-                    away_team_name = game_info['atv'].title()
-                    away_team_score = game_info['ats']
+                    away_team_locale = stripUnicode(game_info['atn'])
+                    away_team_name = stripUnicode(game_info['atv'].title())
+                    away_team_score = stripUnicode(game_info['ats'])
 
-                    home_team_locale = game_info['htn']
-                    home_team_name = game_info['htv'].title()
-                    home_team_score = game_info['hts']
+                    home_team_locale = stripUnicode(game_info['htn'])
+                    home_team_name = stripUnicode(game_info['htv'].title())
+                    home_team_score = stripUnicode(game_info['hts'])
 
                     # NHL API forces team name in locale for both New York teams, i.e. locale + name == "NY Islanders islanders"
                     if 'NY ' in home_team_locale:
@@ -159,6 +159,10 @@ def clear_screen():
         os.system('cls')
     else:
         os.system('clear')
+
+
+def stripUnicode(text):
+    return ''.join([x for x in text if ord(x)<128])
 
 
 if __name__ == '__main__':
