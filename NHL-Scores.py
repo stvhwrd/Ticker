@@ -88,46 +88,41 @@ def main():
 
                     # Show games from today AND yesterday
                     if yesterdays_date in game_clock.title() or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
-                
-                    #--- OR if you'd rather see only scores from today ---#
-                
-                    # Only show games from today
+                    
+                    # Use the below line to only show games from today
                     #if todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
 
                         header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
                         
-
                         # Different displays:
-                        
-                        # finished game
-                        if 'FINAL' in status:           # example (FINAL OT) 
+                        # Finished game ex: "(FINAL OT)"
+                        if 'FINAL' in status:
                             if yesterdays_date in game_clock.title():
                                 header_text += '\non ' + game_clock + ' '
                             else:
                                 header_text += '\n'
                             header_text += '(' + status + ')'                           
 
-                        # upcoming game
-                        elif 'DAY' in game_clock:       # example (TUESDAY 4/21, 7:00 PM EST)
+                        # Upcoming game ex: "(TUESDAY 4/21, 7:00 PM EST)"
+                        elif 'DAY' in game_clock:
                             header_text += '\n(' + game_clock + ', ' + status + ' EST)'
                         
-                        # pre game
-                        elif 'PRE GAME' in game_clock:       # example (PRE GAME)
+                        # Pre game ex: "(PRE GAME)"
+                        elif 'PRE GAME' in game_clock:
                             header_text += '\n(' + game_clock + ')'
                         
-                        # last 5 minutes of game
-                        elif 'critical' in game_stage:  # example output: (1:59 3rd PERIOD) **in RED**
+                        # Last 5 minutes of game
+                        elif 'critical' in game_stage:
                             header_text += '\n(' + Fore.RED +  game_clock  + ' PERIOD'+ Fore.RESET + ')'
                         
-                        # any other time in game
-                        else:                           # example (10:34 1st PERIOD)
+                        # Any other point in the game ex: "(10:34 1st PERIOD)"
+                        else:
                             header_text += '\n(' + game_clock + ' PERIOD)'
 
                         print header_text
 
 
                         # Highlight the winner of finished games in red, and games underway in green:
-
                         # Away team wins
                         if game_info['atc'] == 'winner':
                             print Fore.RED + away_team_name + ': ' + away_team_score + Fore.RESET
@@ -162,5 +157,8 @@ def clear_screen():
 
 
 if __name__ == '__main__':
+    # Initialize Colorama
     init()
+
+    # Start the main loop
     main()
