@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-# Original Author: @jtf323
-# Contributor: @stvhwrd
+# Author: John Freed - @jtf323
 
 import json
 import os
