@@ -117,7 +117,7 @@ def main():
                         
                         # Any other point in the game ex: "(10:34 1st PERIOD)"
                         else:
-                            header_text += '\n(' + Fore.YELLOW + game_clock + Fore.RESET + ' PERIOD)'
+                            header_text += '\n(' + Fore.YELLOW + game_clock + ' PERIOD' + Fore.RESET + ')'
 
                         print header_text
 
