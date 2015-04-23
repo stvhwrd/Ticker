@@ -109,7 +109,7 @@ def main():
                         
                         # Pre game ex: "(PRE GAME)"
                         elif 'PRE GAME' in game_clock:
-                            header_text += '\n(' + game_clock + ')'
+                            header_text += '\n(' + Fore.BLUE + game_clock + Fore.RESET + ')'
                         
                         # Last 5 minutes of game
                         elif 'critical' in game_stage:
@@ -117,7 +117,7 @@ def main():
                         
                         # Any other point in the game ex: "(10:34 1st PERIOD)"
                         else:
-                            header_text += '\n(' + game_clock + ' PERIOD)'
+                            header_text += '\n(' + Fore.YELLOW + game_clock + Fore.RESET + ' PERIOD)'
 
                         print header_text
 
@@ -125,13 +125,13 @@ def main():
                         # Highlight the winner of finished games in red, and games underway in green:
                         # Away team wins
                         if game_info['atc'] == 'winner':
-                            print Fore.RED + away_team_name + ': ' + away_team_score + Fore.RESET
+                            print Fore.GREEN + away_team_name + ': ' + away_team_score + Fore.RESET
                             print home_team_name + ': ' + home_team_score
                         
                         # Home team wins
                         elif game_info['htc'] == 'winner':
                             print away_team_name + ': ' + away_team_score
-                            print Fore.RED + home_team_name + ': ' + home_team_score + Fore.RESET
+                            print Fore.GREEN + home_team_name + ': ' + home_team_score + Fore.RESET
 
                         # Game still underway
                         elif 'progress' in game_stage or 'critical' in game_stage:
