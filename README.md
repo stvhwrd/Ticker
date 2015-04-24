@@ -17,10 +17,11 @@ A simple Python script to display the score of current and recently finished NHL
 To launch the script, ensure your system meets the requirements, open a terminal window and run
 
 `python /path/NHL-Scores.py`
-                                        
-example:
-                                        
-`python ~/GitHub/NHL-Scores/NHL-Scores.py`
+
+If you only want to see games for today you can run the sript with the `--today-only` flag
+
+`python /path/NHL-Scores.py --today-only`
+
 
 <br>
 <br>
