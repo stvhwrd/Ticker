@@ -171,10 +171,7 @@ def parse_arguments(arguments):
     for x in range(1, len(arguments)):
         argument = arguments[x]
 
-        if argument == '--help':
-            print_help()
-            sys.exit(0)
-        elif argument == '-h':
+        if argument == '--help' or argument == '-h':
             print_help()
             sys.exit(0)
         elif argument == '--today-only':
