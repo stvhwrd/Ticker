@@ -1,20 +1,21 @@
 # -*- coding: utf-8 -*-
 # Author: John Freed - @jtf323
 
+from colorama import init, Fore
+import datetime
 import json
 import os
 import platform
 import sys
 import time
-import datetime
 import requests
-from colorama import init, Fore, Back, Style
 
 refresh_time = 60  # Refresh time (seconds), as per NHL API
 api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
 api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm'}
 
 show_today_only = False
+
 
 def main():
     clear_screen()
@@ -28,7 +29,6 @@ def main():
     # Yesterday's date
     y = t - datetime.timedelta(days=1)
     yesterdays_date = "" + y.strftime("%A") + " " + "%s/%s" % (y.month, y.day)
-
 
     while True:
         clear_screen()
@@ -62,7 +62,7 @@ def main():
                     home_team_name = game_info['htv'].title()
                     home_team_score = game_info['hts']
 
-                    # Fix strange names / loacles returned by NHL
+                    # Fix strange names / locales returned by NHL
                     away_team_locale = fix_locale(away_team_locale)
                     home_team_locale = fix_locale(home_team_locale)
                     away_team_name = fix_name(away_team_name)
@@ -92,7 +92,7 @@ def main():
                         
                         # Last 5 minutes of game
                         elif 'critical' in game_stage:
-                            header_text += '\n(' + Fore.RED +  game_clock  + ' PERIOD'+ Fore.RESET + ')'
+                            header_text += '\n(' + Fore.RED + game_clock + ' PERIOD' + Fore.RESET + ')'
                         
                         # Any other point in the game ex: "(10:34 1st PERIOD)"
                         else:
