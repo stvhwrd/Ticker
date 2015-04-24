@@ -14,6 +14,7 @@ refresh_time = 60  # Refresh time (seconds), as per NHL API
 api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp?loadScoreboard=jQuery110105207217424176633_1428694268811&_=1428694268812'
 api_headers = {'Host': 'live.nhle.com', 'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.118 Safari/537.36', 'Referer': 'http://www.nhl.com/ice/scores.htm'}
 
+show_today_only = False
 
 def main():
     clear_screen()
@@ -67,11 +68,8 @@ def main():
                     away_team_name = fix_name(away_team_name)
                     home_team_name = fix_name(home_team_name)
 
-                    # Show games from today AND yesterday
-                    if yesterdays_date in game_clock.title() or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
-                    
-                    # Use the below line to only show games from today
-                    #if todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
+                    # Show games from Yesterday and today or just today
+                    if (yesterdays_date in game_clock.title() and not show_today_only) or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
 
                         header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
                         
@@ -137,6 +135,13 @@ def clear_screen():
         os.system('clear')
 
 
+def print_help():
+    print 'By default games from yesterday and today will be displayed.'
+    print ''
+    print 'If you want to see games from just today run the program with '
+    print 'the "--today-only" flag.'
+
+
 def fix_locale(team_locale):
     # NHL API forces team name in locale for both New York teams, i.e. locale + name == "NY Islanders islanders"
     if 'NY ' in team_locale:
@@ -161,9 +166,27 @@ def fix_name(team_name):
     return team_name
 
 
+def parse_arguments(arguments):
+    global show_today_only
+    for x in range(1, len(arguments)):
+        argument = arguments[x]
+
+        if argument == '--help':
+            print_help()
+            sys.exit(0)
+        elif argument == '-h':
+            print_help()
+            sys.exit(0)
+        elif argument == '--today-only':
+            show_today_only = True
+
+
 if __name__ == '__main__':
     # Initialize Colorama
     init()
+
+    # Parse any arguments provided
+    parse_arguments(sys.argv)
 
     # Start the main loop
     main()
