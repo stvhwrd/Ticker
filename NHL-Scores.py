@@ -61,30 +61,11 @@ def main():
                     home_team_name = game_info['htv'].title()
                     home_team_score = game_info['hts']
 
-                    # NHL API forces team name in locale for both New York teams, i.e. locale + name == "NY Islanders islanders"
-                    if 'NY ' in home_team_locale:
-                        home_team_locale = 'New York'
-                    if 'NY ' in away_team_locale:
-                        away_team_locale = 'New York'
-
-                    # NHL API refers to Detroit's team as "redwings" (one word)
-                    if 'wings' in away_team_name:
-                        away_team_name = 'Red Wings'
-                    if 'wings' in home_team_name:
-                        home_team_name = 'Red Wings'
-
-                    # NHL API refers to Columbus' team as "bluejackets" (one word)
-                    if 'jackets' in away_team_name:
-                        away_team_name = 'Blue Jackets'
-                    if 'jackets' in home_team_name:
-                        home_team_name = 'Blue Jackets'
-
-                    # NHL API refers to Toronto's team as "mapleleafs" (one word)
-                    if 'leafs' in away_team_name:
-                        away_team_name = 'Maple Leafs'
-                    if 'leafs' in home_team_name:
-                        home_team_name = 'Maple Leafs'
-
+                    # Fix strange names / loacles returned by NHL
+                    away_team_locale = fix_locale(away_team_locale)
+                    home_team_locale = fix_locale(home_team_locale)
+                    away_team_name = fix_name(away_team_name)
+                    home_team_name = fix_name(home_team_name)
 
                     # Show games from today AND yesterday
                     if yesterdays_date in game_clock.title() or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
@@ -154,6 +135,30 @@ def clear_screen():
         os.system('cls')
     else:
         os.system('clear')
+
+
+def fix_locale(team_locale):
+    # NHL API forces team name in locale for both New York teams, i.e. locale + name == "NY Islanders islanders"
+    if 'NY ' in team_locale:
+        return 'New York'
+
+    return team_locale
+
+
+def fix_name(team_name):
+    # Change "redwings" to "Red Wings"
+    if 'wings' in team_name:
+        return 'Red Wings'
+
+    # Change "bluejackets" to "Blue Jackets"
+    if 'jackets' in team_name:
+        return 'Blue Jackets'
+
+    # Change "mapleleafs" to "Maple Leafs"
+    if 'leafs' in team_name:
+        return 'Maple Leafs'
+
+    return team_name
 
 
 if __name__ == '__main__':
