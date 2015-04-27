@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Author: John Freed - @jtf323
 
-from colorama import init, Fore
+from colorama import init, Fore, Style
 import datetime
 import json
 import os
@@ -57,10 +57,12 @@ def main():
                     away_team_locale = game_info['atn']
                     away_team_name = game_info['atv'].title()
                     away_team_score = game_info['ats']
+                    away_team_result = game_info['atc']
 
                     home_team_locale = game_info['htn']
                     home_team_name = game_info['htv'].title()
                     home_team_score = game_info['hts']
+                    home_team_result = game_info['htc']
 
                     # Fix strange names / locales returned by NHL
                     away_team_locale = fix_locale(away_team_locale)
@@ -73,44 +75,41 @@ def main():
 
                         header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
                         
-                        # Different displays:
-                        # Finished game ex: "(FINAL OT)"
+                        # Different displays for different states of game:
+                        # Game from yesterday, ex: on YESTERDAY, MONDAY 4/20 (FINAL 2nd OT)
+                        # Game from today finished, ex: TODAY (FINAL 2nd OT)
                         if 'FINAL' in status:
                             if yesterdays_date in game_clock.title():
-                                header_text += '\non ' + game_clock + ' '
-                            else:
-                                header_text += '\n'
-                            header_text += '(' + status + ')'                           
+                                header_text += '\nYESTERDAY, ' + game_clock + ' '
+                            elif todays_date in game_clock.title() or 'TODAY' in game_clock:
+                                header_text += '\nTODAY '
+                            header_text += '(' + status + ')'
 
-                        # Upcoming game ex: "(TUESDAY 4/21, 7:00 PM EST)"
+                        # Upcoming game, ex: TUESDAY 4/21, 7:00 PM EST)
                         elif 'DAY' in game_clock:
-                            header_text += '\n(' + game_clock + ', ' + status + ' EST)'
-                        
-                        # Pre game ex: "(PRE GAME)"
-                        elif 'PRE GAME' in game_clock:
-                            header_text += '\n(' + Fore.BLUE + game_clock + Fore.RESET + ')'
-                        
-                        # Last 5 minutes of game
+                            header_text += Fore.YELLOW + '\n(' + game_clock + ', ' + status + ' EDT)' + Fore.RESET
+
+                        # Last 5 minutes of game and overtime, ex: (1:59 3rd PERIOD) *in red font*
                         elif 'critical' in game_stage:
                             header_text += '\n(' + Fore.RED + game_clock + ' PERIOD' + Fore.RESET + ')'
-                        
-                        # Any other point in the game ex: "(10:34 1st PERIOD)"
+
+                        # Any other time in game, ex: (10:34 1st PERIOD)
                         else:
-                            header_text += '\n(' + Fore.YELLOW + game_clock + ' PERIOD' + Fore.RESET + ')'
+                            header_text += Fore.YELLOW + '\n(' + game_clock + ' PERIOD)' + Style.RESET_ALL
 
                         print header_text
 
 
-                        # Highlight the winner of finished games in red, and games underway in green:
+                        # Highlight the winner of finished games in blue, and games underway in green:
                         # Away team wins
-                        if game_info['atc'] == 'winner':
-                            print Fore.GREEN + away_team_name + ': ' + away_team_score + Fore.RESET
+                        if away_team_result == 'winner':
+                            print Style.BRIGHT + Fore.BLUE + away_team_name + ': ' + away_team_score + Style.RESET_ALL
                             print home_team_name + ': ' + home_team_score
-                        
+
                         # Home team wins
-                        elif game_info['htc'] == 'winner':
+                        elif home_team_result == 'winner':
                             print away_team_name + ': ' + away_team_score
-                            print Fore.GREEN + home_team_name + ': ' + home_team_score + Fore.RESET
+                            print Style.BRIGHT + Fore.BLUE + home_team_name + ': ' + home_team_score + Style.RESET_ALL
 
                         # Game still underway
                         elif 'progress' in game_stage or 'critical' in game_stage:
@@ -120,7 +119,7 @@ def main():
                         # Game hasn't yet started
                         else:
                             print away_team_name + ': ' + away_team_score
-                            print home_team_name + ': ' + home_team_score                              
+                            print home_team_name + ': ' + home_team_score
 
                         print ''
                     
@@ -147,6 +146,9 @@ def fix_locale(team_locale):
     if 'NY ' in team_locale:
         return 'New York'
 
+    if 'Montr' in team_locale:
+        return u'Montréal'
+        
     return team_locale
 
 
