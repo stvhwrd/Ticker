@@ -76,11 +76,11 @@ defaults write com.apple.dock show-process-indicators -bool true
 # Applications                                                                #
 ###############################################################################
 
-cd ~/Desktop
 
 echo ""
 echo "Opening Chromium, please immediately set as default browser."
 echo ""
+cd ~/Desktop
 unzip -oq ~/Desktop/Chromium.zip
 open ~/Desktop/Chromium.app/Contents/MacOS/Chromium
 sleep 15
@@ -93,6 +93,7 @@ sleep 30
 echo ""
 echo "Opening iTerm2 and installing colour schemes."
 echo ""
+cd ~/Desktop
 unzip -oq ~/Desktop/iTerm.zip
 ~/Desktop/iTerm.app/Contents/MacOS/iTerm ~/Desktop/extensions/colours/*
 echo "Done."
@@ -102,6 +103,7 @@ echo ""
 echo ""
 echo "Installing and patching Sublime Text 3."
 echo ""
+cd ~/Desktop
 unzip -oq ~/Desktop/SublimeText.zip
 sleep 5
 #open ~/Desktop/SublimeText-patch.zip
@@ -122,6 +124,7 @@ echo ""
 echo ""
 echo "Installing F.lux"
 echo ""
+cd ~/Desktop
 unzip -o ~/Desktop/Flux.zip
 open Flux.app/Contents/MacOS/Flux
 # rm ~/Desktop/Flux.zip
@@ -131,6 +134,7 @@ echo ""
 echo ""
 echo "Installing Spotify"
 echo ""
+cd ~/Desktop
 unzip -oq ~/Desktop/SpotifyInstaller.zip
 open ~/Desktop/Install\ Spotify\ OSX.app/
 # rm ~/Desktop/Install\ Spotify\ OSX.zip
