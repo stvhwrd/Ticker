@@ -8,7 +8,7 @@ ls -h /Volumes/uvindtemp/s/sahoward/workspace-OSX;
 
 echo ""
 
-cp -r /Volumes/uvindtemp/s/sahoward/workspace-OSX ~/Desktop;
+cp -r /Volumes/uvindtemp/s/sahoward/workspace-OSX/* ~/Desktop;
 
 echo "Finished copying.  Now customizing Mac OS X settings..."
 echo ""
@@ -76,33 +76,38 @@ defaults write com.apple.dock show-process-indicators -bool true
 # Applications                                                                #
 ###############################################################################
 
+cd ~/Desktop
+
 echo ""
-echo "Opening Chromium and loading extensions."
+echo "Opening Chromium, please immediately set as default browser."
 echo ""
-unzip ~/Desktop/Chromium.zip
+unzip -oq ~/Desktop/Chromium.zip
+open ~/Desktop/Chromium.app/Contents/MacOS/Chromium
+sleep 15
 ~/Desktop/Chromium.app/Contents/MacOS/Chromium ~/Desktop/extensions/crx/*
-# rm ~/Desktop/Chromium.zip
-#defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Desktop/Chromium.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 echo "Done."
+echo ""
+sleep 30
 
 
 echo ""
 echo "Opening iTerm2 and installing colour schemes."
 echo ""
-unzip ~/Desktop/iTerm.zip
+unzip -oq ~/Desktop/iTerm.zip
 ~/Desktop/iTerm.app/Contents/MacOS/iTerm ~/Desktop/extensions/colours/*
-# rm ~/Desktop/iTerm.zip
-#defaults write com.apple.dock persistent-apps -array-add '<dict><key>tile-data</key><dict><key>file-data</key><dict><key>_CFURLString</key><string>/Desktop/iTerm.app</string><key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>'
 echo "Done."
+echo ""
 
 
 echo ""
 echo "Installing and patching Sublime Text 3."
 echo ""
-unzip Sublime\ Text.zip; unzip Sublime\ Text\ patch.zip
+unzip -oq ~/Desktop/SublimeText.zip
+sleep 5
+#open ~/Desktop/SublimeText-patch.zip
 open ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text
 chmod u+x ~/Desktop/extensions/subl/Sublime\ Text
-sleep 10
+sleep 5
 killall Sublime\ Text
 cp ~/Desktop/extensions/subl/Sublime\ Text ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text
 sleep 2
@@ -111,23 +116,26 @@ open ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text
 ln -s ~/Desktop/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 # rm ~/Desktop/Sublime\ Text.zip ~/Desktop/Sublime\ Text\ patch.zip ~/Desktop/Sublime\ Text
 echo "Done."
+echo ""
 
 
 echo ""
 echo "Installing F.lux"
 echo ""
-unzip ~/Desktop/Flux.zip
+unzip -o ~/Desktop/Flux.zip
 open Flux.app/Contents/MacOS/Flux
 # rm ~/Desktop/Flux.zip
 echo "Done."
+echo ""
 
 echo ""
 echo "Installing Spotify"
 echo ""
-unzip ~/Desktop/Install\ Spotify\ OSX.zip
+unzip -oq ~/Desktop/SpotifyInstaller.zip
 open ~/Desktop/Install\ Spotify\ OSX.app/
 # rm ~/Desktop/Install\ Spotify\ OSX.zip
 echo "Done."
+echo ""
 
 # cleanup zip files
 rm -r ~/Desktop/*.zip
