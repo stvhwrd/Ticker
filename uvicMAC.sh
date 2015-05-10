@@ -107,6 +107,8 @@ killall Sublime\ Text
 cp ~/Desktop/extensions/subl/Sublime\ Text ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text
 sleep 2
 open ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text
+# add the "subl" terminal launch shortcut
+ln -s ~/Desktop/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 # rm ~/Desktop/Sublime\ Text.zip ~/Desktop/Sublime\ Text\ patch.zip ~/Desktop/Sublime\ Text
 echo "Done."
 
