@@ -1,5 +1,32 @@
 #!/bin/bash
 
+# #download dmg
+# curl -LOC - http://foo.bar/file.ext
+
+# #mount
+# hdiutil mount cotvnc-20b4.dmg
+
+# #copy the app
+# sudo cp -R "/Volumes/Chicken of the VNC/Chicken of the VNC.app" /Applications
+# #OR
+# #install the package
+# sudo installer -package /path/to/package -target "/Volumes/Macintosh HD"
+
+# #eject dmg
+# cd ~
+# hdiutil unmount "/Volumes/Chicken of the VNC/"
+
+
+# Find most recent (first listed) chromium version from http://sourceforge.net/projects/osxportableapps/files/Chromium/ and download with curl, open and copy to desktop, then discard dmg.
+
+
+# Chromium:
+# iTerm: https://iterm2.com/downloads/stable/iTerm2_v2_0.zip
+# SublimeText: http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%20Build%203083.dmg
+
+
+#!/bin/bash
+
 echo ""
 echo "Copying the following files from UVic Individual Temp storage:"
 echo ""
