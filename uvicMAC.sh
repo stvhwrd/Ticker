@@ -36,10 +36,16 @@ iterm_version='2_1_1'
 iterm_url='https://iterm2.com/downloads/beta/iTerm2-'$iterm_version'.zip'
 
 sublimetext_version='3083'
-sublimetext_url='http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%20Build%20'$sublimetext_version
+sublimetext_url='http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%20Build%20'$sublimetext_version'.dmg'
 
 cyberduck_version='4.7'
 cyberduck_url='https://update.cyberduck.io/Cyberduck-'$cyberduck_version'.zip'
+
+flux_version=''
+flux_url='https://justgetflux.com/mac/Flux.zip'
+
+spotify_version=''
+spotify_url='https://www.spotify.com/ca-en/download/mac/'
 
 # Begin downloading
 cd ~/Desktop;
@@ -47,13 +53,9 @@ curl -LO $chromium_url
 curl -LO $iterm_url
 curl -LO $cyberduck_url
 curl -LO $sublimetext_url
-curl -LO
+curl -LO $flux_url
 
 
-# Mount 
- cd ~/Desktop; curl -L http://c758482.r82.cf2.rackcdn.com/Sublime%20Text%20Build%203083.dmg -o "SublimeText.dmg"
-hdiutil mount ~/Desktop/output.dmg
- 
 echo ""
 echo "THIS WILL DELETE ALL FILES FROM THE DESKTOP!!"
 sleep 3
@@ -114,10 +116,10 @@ defaults write com.apple.finder QLEnableTextSelection -bool true
 # Display full POSIX path as Finder window title
 defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
  
-# Change default shell to zsh
-echo "export SHELL=/bin/zsh" >> ~/.bash_profile;
-echo "exec /bin/zsh -l" >> ~/.bash_profile
-
+# Change default shell to zsh (causes loss of history on each new window)
+# echo "export SHELL=/bin/zsh" >> ~/.bash_profile;
+# echo "exec /bin/zsh -l" >> ~/.bash_profile
+ 
 # Create alias for backing up Chromium settings
 alias backup='rm -rf /Volumes/uvindtemp/s/sahoward/workspace-OSX/extensions/crx/; mkdir /Volumes/uvindtemp/s/sahoward/workspace-OSX/extensions/crx;  cp -r /Users/sahoward/Library/Application\ Support/Chromium/Default/* /Volumes/uvindtemp/s/sahoward/workspace-OSX/extensions/crx/'
  
@@ -173,19 +175,20 @@ defaults write com.apple.dock show-process-indicators -bool true
 ####################################
 
 echo ""
-echo "Downloading Chromium."
-
-curl -LO $chromium_url -o Chromium.zip
-
-echo ""
 echo "Opening Chromium, please immediately set as default browser."
 echo ""
 cd ~/Desktop
-unzip -oq ~/Desktop/Chromium.zip
+hdiutil mount ~/Desktop/Chromium*.dmg &
+wait %1
+cp -R "/Volumes/Chromium*/Chromium.app" ~/Desktop &
+wait %1
+hdiutil unmount /Volumes/Chromium*
 cp -r /Volumes/uvindtemp/s/sahoward/workspace-OSX/extensions/crx/* /Users/sahoward/Library/Application Support/Chromium/Default/ &
 wait %1
 open ~/Desktop/Chromium.app/Contents/MacOS/Chromium
- 
+echo "Done."
+echo ""
+
 ####################################
 # iTerm
 ####################################
@@ -194,20 +197,15 @@ echo ""
 echo "Opening iTerm2 and installing colour schemes."
 echo ""
 cd ~/Desktop
-unzip -oq ~/Desktop/iTerm.zip & 
+unzip -oq ~/Desktop/iTerm*.zip & 
 wait %1
-open ~/Desktop/iTerm.app/Contents/MacOS/iTerm 
 # Install preferences
 ~/Desktop/iTerm.app/Contents/MacOS/iTerm ~/Desktop/extensions/iterm/com.* & 
 wait %1
+sleep 2
 # Install colour schemes
-FILES=/Users/sahoward/Desktop/extensions/iterm/*.itermcolors
-for f in $FILES
-do
-  echo "Installing colour scheme $f..."
-  open ~/Desktop/extensions/iterm/*.itermcolors & 
+open ~/Desktop/extensions/iterm/*.itermcolors & 
   wait %1
-done
 echo "Done."
 echo ""
  
@@ -219,14 +217,17 @@ echo ""
 echo "Installing and patching Sublime Text 3."
 echo ""
 cd ~/Desktop
-unzip -oq ~/Desktop/SublimeText.zip &
+hdiutil mount ~/Desktop/Sublime*.dmg &
 wait %1
+cp -R /Volumes/Sublime\ Text/Sublime\ Text.app ~/Desktop/ &
+wait %1
+hdiutil unmount /Volumes/Sublime*
 open ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text &
 wait %1
 chmod u+x ~/Desktop/extensions/subl/Sublime\ Text
 killall Sublime\ Text
 cp ~/Desktop/extensions/subl/Sublime\ Text ~/Desktop/Sublime\ Text.app/Contents/MacOS/Sublime\ Text
-# add the "subl" terminal launch shortcut
+# temporarily add the "subl" launch shortcut
 ln -s ~/Desktop/Sublime\ Text.app/Contents/SharedSupport/bin/subl /usr/local/bin/subl
 echo "Done."
 echo ""
@@ -239,7 +240,8 @@ echo ""
 echo "Installing F.lux"
 echo ""
 cd ~/Desktop
-unzip -o ~/Desktop/Flux.zip
+unzip -oq ~/Desktop/Flux*.zip & 
+wait %1
 # open Flux.app/Contents/MacOS/Flux
 echo "Done."
 echo ""
@@ -252,7 +254,7 @@ echo ""
 echo "Installing Spotify"
 echo ""
 cd ~/Desktop
-unzip -oq ~/Desktop/SpotifyInstaller.zip &
+unzip -oq ~/Desktop/Spotify*.zip &
 wait %1
 open ~/Desktop/Install\ Spotify\ OSX.app/ &
 wait %1
@@ -267,7 +269,7 @@ echo ""
 echo "Installing Cyberduck"
 echo ""
 cd ~/Desktop
-unzip -oq ~/Desktop/Cyberduck-4.7.zip
+unzip -oq ~/Desktop/Cyberduck*.zip
 echo "Done."
 echo ""
  
