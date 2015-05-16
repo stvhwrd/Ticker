@@ -1,5 +1,22 @@
 # -*- coding: utf-8 -*-
-# Author: John Freed - @jtf323
+
+    # Copyright (C) 2015  Stevie Howard
+
+    # This program is free software: you can redistribute it and/or modify
+    # it under the terms of the GNU General Public License as published by
+    # the Free Software Foundation, either version 3 of the License, or
+    # (at your option) any later version.
+
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU General Public License for more details.
+
+    # You should have received a copy of the GNU General Public License
+    # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    # 
+
 
 from colorama import init, Fore, Style
 import datetime
@@ -20,9 +37,8 @@ show_today_only = False
 def main():
 
     intermission_clock = 18
-    
     games_today = False
-
+    games_printed = 0
     clear_screen()
 
     # Format dates to match NHL API style:
@@ -158,36 +174,27 @@ def main():
                             print Fore.GREEN + away_team_name + ': ' + away_team_score
                             print home_team_name + ': ' + home_team_score + Fore.RESET
                         
-                        # elif todays_date not in game_clock.title() and yesterdays_date not in game_clock.title():
-                        #     if show_today_only:
-                        #          print '\nThere are no games today.'
-                        #      else:
-                        #         '\nThere are no games today.\nNext games:\n'
-                        #         for day in next_two_weeks:
-                        #             print away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
-                        #             print Fore.YELLOW + '(' + game_clock + ', ' + status + ' EDT)' + Fore.RESET
-                        #             print away_team_name + ': ' + away_team_score
-                        #             print home_team_name + ': ' + home_team_score
-
-                        # Game hasn't yet started
                         else:
                             print away_team_name + ': ' + away_team_score
                             print home_team_name + ': ' + home_team_score
-
                         print ''
+
                     elif games_today == False:
                         if show_today_only:
                             print '\nThere are no games today.'
                         else:
-                            header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
-                        # Show the game number of current 7-game series if it's playoff time
-                            if game_id[4:6] == '03':
-                                header_text += ' -- Game ' + series_game_number
-                            print header_text
-                            print Fore.YELLOW + '(' + game_clock + ', ' + status + ' EDT)' + Fore.RESET
-                            print away_team_name + ': ' + away_team_score
-                            print home_team_name + ': ' + home_team_score
-                            print ""
+                            if games_printed < 8:
+                                header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
+                                # Show the game number of current 7-game series if it's playoff time
+                                if game_id[4:6] == '03':
+                                    header_text += ' -- Game ' + series_game_number
+
+                                print header_text
+                                print Fore.YELLOW + '(' + game_clock + ', ' + status + ' EDT)' + Fore.RESET
+                                print away_team_name + ': ' + away_team_score
+                                print home_team_name + ': ' + home_team_score
+                                print ""
+                                games_printed += 1
                             
                         
                     
