@@ -28,6 +28,7 @@
 *.xml
 *.iml
 *.name
+*.idea
 
 # OS generated files #
 ######################
