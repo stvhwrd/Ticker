@@ -10,4 +10,4 @@ install:
   - pip install requests
 # command to run tests
 script:
-  - python NHL-Scoreline.py
+  - python ./NHL-Scoreline.py
