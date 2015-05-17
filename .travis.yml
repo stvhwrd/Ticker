@@ -11,4 +11,4 @@ install:
   - pip install colorama
   - pip install requests
 # command to run tests
-script: NHL-Scoreline
+# script: NHL-Scoreline
