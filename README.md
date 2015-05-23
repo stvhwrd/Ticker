@@ -1,4 +1,4 @@
-# NHL Scoreline
+# Ticker
 
 A simple Python script to display the score of current and recently finished NHL games.  When no games have been played in the last two days, the upcoming schedule will be displayed instead.
 
@@ -30,7 +30,7 @@ To see games for today **only**, you can run the sript with the `--today-only` f
 
 * OS X 10.10.3 with Python 2.7.9
 * Windows 8.1 x64 with Python 2.7.9
-* Ubuntu 14.04 x64 with Python 2.7.6
+* Ubuntu 14.04.2 LTS x64 with Python 2.7.6
 
 ## License
 
