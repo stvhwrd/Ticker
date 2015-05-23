@@ -16,11 +16,11 @@ A simple Python script to display the score of current and recently finished NHL
 
 Once you've ensured that your system meets the requirements, open a terminal window and execute
 
-`python /your/path/to/NHL-Scoreline.py`
+`python /your/path/to/ticker.py`
 
 To see games for today **only**, you can run the sript with the `--today-only` flag
 
-`python /your/path/to/NHL-Scoreline.py --today-only`
+`python /your/path/to/ticker.py --today-only`
 
 
 <br>
@@ -29,7 +29,7 @@ To see games for today **only**, you can run the sript with the `--today-only` f
 ## Tested on
 
 * OS X 10.10.3 with Python 2.7.9
-* Windows 7 x64 with Python 2.7.9
+* Windows 8.1 x64 with Python 2.7.9
 * Ubuntu 14.04 x64 with Python 2.7.6
 
 ## License
