@@ -2,7 +2,7 @@
 
 A simple Python script to display the score of current and recently finished NHL games.  When no games have been played in the last two days, the upcoming schedule will be displayed instead.
 
-![Exhibit A](https://github.com/stvhwrd/NHL-Scoreline/blob/master/Screenshots/IntermissionClock.png)
+![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png)
 
 ## Requirements
 * Python 2.7
