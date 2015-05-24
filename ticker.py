@@ -1,19 +1,19 @@
 # -*- coding: utf-8 -*-
 
-    # Copyright (C) 2015  Stevie Howard
+# Copyright (C) 2015  Stevie Howard
 
-    # This program is free software: you can redistribute it and/or modify
-    # it under the terms of the GNU General Public License as published by
-    # the Free Software Foundation, either version 3 of the License, or
-    # (at your option) any later version.
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 
-    # This program is distributed in the hope that it will be useful,
-    # but WITHOUT ANY WARRANTY; without even the implied warranty of
-    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    # GNU General Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
 
-    # You should have received a copy of the GNU General Public License
-    # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 from colorama import init, Fore, Style
@@ -25,12 +25,13 @@ import sys
 import time
 import requests
 
-scoreboard_url = 'http://www.nhl.com/ice/scores.htm'
-refresh_time = 30  # Minimize delay by doubling the API refresh rate
-api_url = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp'
 
-show_today_only = witnessed_end_of_period = False
-witnessed_end_of_period = True
+REFRESH_TIME = 30  # Minimize delay by doubling the API refresh rate
+API_URL = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp'
+
+WITNESSED_END_OF_PERIOD = True
+
+
 def main():
 
     intermission_clock = 18.0
@@ -41,31 +42,36 @@ def main():
     # Format dates to match NHL API style:
 
     # Current season
-    season = '20142015/'
+    SEASON = '20142015/'
 
     # Today's date
-    t = datetime.datetime.now()
-    todays_date = "" + t.strftime("%A") + " " + "%s/%s" % (t.month, t.day)
+    t_object = datetime.datetime.now()
+    todays_date = "" + \
+        t_object.strftime(
+            "%A") + " " + "%s/%s" % (t_object.month, t_object.day)
 
     # Yesterday's date
-    y = t - datetime.timedelta(days=1)
-    yesterdays_date = "" + y.strftime("%A") + " " + "%s/%s" % (y.month, y.day)
+    y_object = t_object - datetime.timedelta(days=1)
+    yesterdays_date = "" + \
+        y_object.strftime(
+            "%A") + " " + "%s/%s" % (y_object.month, y_object.day)
 
     # Next two weeks
     next_two_weeks = []
     for index in range(1, 15):
-        d = t + datetime.timedelta(days=index)
-        next_day = "" + d.strftime("%A") + " " + "%s/%s" % (d.month, d.day)
+        d_object = t_object + datetime.timedelta(days=index)
+        next_day = "" + \
+            d_object.strftime(
+                "%A") + " " + "%s/%s" % (d_object.month, d_object.day)
         next_two_weeks.append(next_day)
-
 
     while True:
         clear_screen()
 
-        r = requests.get(api_url)
+        scraped_page = requests.get(API_URL)
 
         # We get back json data with some JS around it, gotta remove the JS
-        json_data = r.text
+        json_data = scraped_page.text
 
         # Remove the leading JS
         json_data = json_data.replace('loadScoreboard(', '')
@@ -106,12 +112,15 @@ def main():
                         playoffs = True
                         series_game_number = game_id[-1:]
 
-                    # Show games from (yesterday and today) or just today
-                    if (yesterdays_date in game_clock.title() and not show_today_only) or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
+                    # Show games from yesterday and today
+                    if yesterdays_date in game_clock.title() or todays_date in game_clock.title() \
+                            or 'TODAY' in game_clock or 'LIVE' in status:
                         games_today = True
-                        header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
+                        header_text = away_team_locale + ' ' + away_team_name + \
+                            ' @ ' + home_team_locale + ' ' + home_team_name
 
-                        # Show the game number of current 7-game series if it's playoff time
+                        # Show the game number of current 7-game series if it's
+                        # playoff time
                         if game_id[4:6] == '03':
                             header_text += ' -- Game ' + series_game_number
 
@@ -127,36 +136,41 @@ def main():
 
                         # Upcoming game, ex: TUESDAY 4/21, 7:00 PM EST)
                         elif 'DAY' in game_clock:
-                            status = EDT_to_PDT(status)
-                            header_text += Fore.YELLOW + '\n(' + game_clock + ', ' + status + ' PDT)' + Fore.RESET
+                            status = eastern_to_pacific(status)
+                            header_text += Fore.YELLOW + \
+                                '\n(' + game_clock + ', ' + \
+                                status + ' PDT)' + Fore.RESET
 
-                        # Last 5 minutes of game and overtime, ex: (1:59 3rd PERIOD) *in red font*
+                        # Last 5 minutes of game and overtime, ex: (1:59 3rd
+                        # PERIOD) *in red font*
                         elif 'LIVE' in status and 'critical' in game_stage:
-                            witnessed_end_of_period = True
-                            header_text += Fore.RED + '\n(' + game_clock + ' PERIOD)' + Fore.RESET
+                            WITNESSED_END_OF_PERIOD = True
+                            header_text += Fore.RED + \
+                                '\n(' + game_clock + ' PERIOD)' + Fore.RESET
                             if 'END 3rd' in game_clock or 'OT' in game_clock:
                                 intermission_clock = 15.0
-                            print_intermission_clock(header_text, intermission_clock)
-
+                            print_intermission_clock(
+                                header_text, intermission_clock)
 
                         # Any other time in game, ex: (10:34 1st PERIOD)
                         else:
-                            header_text += Fore.YELLOW + '\n(' + game_clock + Style.RESET_ALL
+                            header_text += Fore.YELLOW + \
+                                '\n(' + game_clock + Style.RESET_ALL
                             if 'PRE GAME' not in game_clock:
-                                witnessed_end_of_period = True
+                                WITNESSED_END_OF_PERIOD = True
                                 header_text += Fore.YELLOW + ' PERIOD'
 
                             # Display a countdown for 18 minutes of intermission (regular periods)
                             #     or 15 minutes of intermission (OVERTIME)
-                            if 'END ' in game_clock and 'final' not in status and witnessed_end_of_period:
+                            if 'END ' in game_clock and 'final' not in status and WITNESSED_END_OF_PERIOD:
                                 if 'END 3rd' in game_clock or 'OT' in game_clock:
                                     intermission_clock = 15.0
-                                print_intermission_clock(header_text, intermission_clock)
+                                print_intermission_clock(
+                                    header_text, intermission_clock)
 
                             header_text += Fore.YELLOW + ')' + Style.RESET_ALL
 
                         print header_text
-
 
                         # Highlight the winner of finished games in blue, and games underway in green:
                         # Away team wins
@@ -180,25 +194,25 @@ def main():
                         print ''
 
                     elif games_today == False:
-                        if show_today_only:
-                            print '\nThere are no games today.'
-                        else:
-                            if games_printed < 8:
-                                header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
-                                # Show the game number of current 7-game series if it's playoff time
-                                if playoffs:
-                                    header_text += ' -- Game ' + series_game_number
+                        if games_printed < 8:
+                            header_text = away_team_locale + ' ' + away_team_name + \
+                                ' @ ' + home_team_locale + \
+                                ' ' + home_team_name
+                            # Show the game number of current 7-game series
+                            # if it's playoff time
+                            if playoffs:
+                                header_text += ' -- Game ' + \
+                                    series_game_number
 
-                                print header_text
-                                print Fore.YELLOW + '(' + game_clock + ', ' + status + ' PDT)' + Fore.RESET
-                                print away_team_name + ': ' + away_team_score
-                                print home_team_name + ': ' + home_team_score
-                                print ""
-                                games_printed += 1
-
+                            print header_text
+                            print Fore.YELLOW + '(' + game_clock + ', ' + status + ' PDT)' + Fore.RESET
+                            print away_team_name + ': ' + away_team_score
+                            print home_team_name + ': ' + home_team_score
+                            print ""
+                            games_printed += 1
 
         # Perform the sleep
-        time.sleep(refresh_time)
+        time.sleep(REFRESH_TIME)
 
 
 def clear_screen():
@@ -224,7 +238,8 @@ def get_address(game_id, season):
 
 
 def fix_locale(team_locale):
-    # NHL API forces team name in locale for both New York teams, i.e. locale + name == "NY Islanders islanders"
+    # NHL API forces team name in locale for both New York teams, i.e. locale
+    # + name == "NY Islanders islanders"
     if 'NY ' in team_locale:
         return 'New York'
     #
@@ -235,8 +250,9 @@ def fix_locale(team_locale):
 
 
 def print_intermission_clock(header_text, intermission_clock):
-    header_text += Fore.YELLOW + ', ' + str(intermission_clock) + ' minutes remaining in the intermission'
-    intermission_clock -= (refresh_time/60.0)
+    header_text += Fore.YELLOW + ', ' + \
+        str(intermission_clock) + ' minutes remaining in the intermission'
+    intermission_clock -= (refresh_time / 60.0)
     if intermission_clock < 0:
         if 'END 3rd' in game_clock or 'OT' in game_clock:
             intermission_clock = 15.0
@@ -260,11 +276,13 @@ def fix_name(team_name):
 
     return team_name
 
+
 def local_time_it(status):
     print status
     tokens = status.split()
     print tokens
 # str.split(str="", num=string.count(str))
+
 
 def print_schedule():
     for day in next_two_weeks:
@@ -274,7 +292,8 @@ def print_schedule():
         print home_team_name + ': ' + home_team_score
         print "\n"
 
-def EDT_to_PDT(clock):
+
+def eastern_to_pacific(clock):
     '''Translate time into Pacific for us WestCoasters'''
     time_translations = {
         '12:00 PM': '9:00 AM',
@@ -292,30 +311,14 @@ def EDT_to_PDT(clock):
     }
     return time_translations[clock]
 
-# def get_series_score(scoreboard_url):
-# see http://www.gregreda.com/2013/03/03/web-scraping-101-with-python/
-#
-# def get_category_winner(category_url):
-#     html = urlopen(scoreboard_url).read()
-#     soup = BeautifulSoup(html, "lxml")
-#     category = soup.find("h1", "headline").string
-#     winner = [h2.string for h2 in soup.findAll("h2", "boc1")]
-#     runners_up = [h2.string for h2 in soup.findAll("h2", "boc2")]
-#     return {"category": category,
-#             "category_url": category_url,
-#             "winner": winner,
-#             "runners_up": runners_up}
 
 def parse_arguments(arguments):
-    global show_today_only
     for x in range(1, len(arguments)):
         argument = arguments[x]
 
         if argument == '--help' or argument == '-h':
             print_help()
             sys.exit(0)
-        elif argument == '--today-only':
-            show_today_only = True
 
 
 if __name__ == '__main__':
