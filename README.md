@@ -1,28 +1,19 @@
-# NHL Scoreline
-
+# Ticker
 A simple Python script to display the score of current and recently finished NHL games.  When no games have been played in the last two days, the upcoming schedule will be displayed instead.
 
-![Exhibit A](https://github.com/stvhwrd/NHL-Scoreline/blob/master/Screenshots/IntermissionClock.png)
+![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png)
 
 ## Requirements
+
 * Python 2.7
     * `python --version`
 * Requests
     * `pip install requests`
 * Colorama
     * `pip install colorama`
-
 ## Usage
-
 Once you've ensured that your system meets the requirements, open a terminal window and execute
-
 `python /your/path/to/ticker.py`
-
-To see games for today **only**, you can run the sript with the `--today-only` flag
-
-`python /your/path/to/ticker.py --today-only`
-
-
 <br>
 <br>
 
@@ -30,7 +21,7 @@ To see games for today **only**, you can run the sript with the `--today-only` f
 
 * OS X 10.10.3 with Python 2.7.9
 * Windows 8.1 x64 with Python 2.7.9
-* Ubuntu 14.04 x64 with Python 2.7.6
+* Ubuntu 14.04.2 LTS x64 with Python 2.7.6
 
 ## License
 
