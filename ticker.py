@@ -30,10 +30,6 @@ REFRESH_TIME = 30  # Minimize delay by doubling the API refresh rate
 API_URL = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp'
 
 
-# Current season
-SEASON = '20142015/'
-
-
 def main():
     ''''''
     intermission_clock = 18.0
@@ -72,36 +68,36 @@ def main():
 
         # Remove the trailing ')'
         json_data = json_data[:-1]
-        
+
         data = json.loads(json_data)
-        
+
         for key in data:
             if key == 'games':
                 for game_info in data[key]:
-
                     # Assign more meaningful names
                     game_id = str(game_info['id'])
                     game_clock = game_info['ts']
                     game_stage = game_info['tsc']
                     status = game_info['bs']
 
-                    away_team_locale = game_info['atn']
-                    away_team_name = game_info['atv'].title()
-                    away_team_score = game_info['ats']
-                    away_team_result = game_info['atc']
+                    away_locale = game_info['atn']
+                    away_name = game_info['atv'].title()
+                    away_score = game_info['ats']
+                    away_result = game_info['atc']
 
-                    home_team_locale = game_info['htn']
-                    home_team_name = game_info['htv'].title()
-                    home_team_score = game_info['hts']
-                    home_team_result = game_info['htc']
+                    home_locale = game_info['htn']
+                    home_name = game_info['htv'].title()
+                    home_score = game_info['hts']
+                    home_result = game_info['htc']
 
                     # Fix strange names / locales returned by NHL
-                    away_team_locale = fix_locale(away_team_locale)
-                    home_team_locale = fix_locale(home_team_locale)
-                    away_team_name = fix_name(away_team_name)
-                    home_team_name = fix_name(home_team_name)
+                    away_locale = fix_locale(away_locale)
+                    home_locale = fix_locale(home_locale)
+                    away_name = fix_name(away_name)
+                    home_name = fix_name(home_name)
 
-                    playoffs = series_game_number = False
+                    playoffs = False
+                    series_game_number = 0
                     if game_id[4:6] == '03':
                         playoffs = True
                         series_game_number = game_id[-1:]
@@ -109,11 +105,11 @@ def main():
                     # Show games from yesterday and today
                     if yesterdays_date in game_clock.title() or todays_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
                         games_today = True
-                        header_text = away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
+                        header_text = away_locale + ' ' + away_name + ' @ ' + home_locale + ' ' + home_name
 
-                        # Show the game number of current 7-game series if it's
-                        # playoff time
-                        if game_id[4:6] == '03':
+                        # Show the game number of current 7-game series,
+                        # if it's playoff time
+                        if playoffs:
                             header_text += ' -- Game ' + series_game_number
 
                         # Different displays for different states of game:
@@ -162,31 +158,31 @@ def main():
 
                         # Highlight the winner of finished games in blue, and games underway in green:
                         # Away team wins
-                        if away_team_result == 'winner':
-                            print(Style.BRIGHT + Fore.BLUE + away_team_name +
-                                  ': ' + away_team_score + Style.RESET_ALL)
-                            print(home_team_name + ': ' + home_team_score)
+                        if away_result == 'winner':
+                            print(Style.BRIGHT + Fore.BLUE + away_name +
+                                  ': ' + away_score + Style.RESET_ALL)
+                            print(home_name + ': ' + home_score)
 
                         # Home team wins
-                        elif home_team_result == 'winner':
-                            print(away_team_name + ': ' + away_team_score)
-                            print(Style.BRIGHT + Fore.BLUE + home_team_name +
-                                  ': ' + home_team_score + Style.RESET_ALL)
+                        elif home_result == 'winner':
+                            print(away_name + ': ' + away_score)
+                            print(Style.BRIGHT + Fore.BLUE + home_name +
+                                  ': ' + home_score + Style.RESET_ALL)
 
                         # Game still underway
                         elif 'progress' in game_stage or 'critical' in game_stage:
-                            print(Fore.GREEN + away_team_name + ': ' + away_team_score)
-                            print(home_team_name + ': ' + home_team_score + Fore.RESET)
+                            print(Fore.GREEN + away_name + ': ' + away_score)
+                            print(home_name + ': ' + home_score + Fore.RESET)
 
                         else:
-                            print(away_team_name + ': ' + away_team_score)
-                            print(home_team_name + ': ' + home_team_score)
+                            print(away_name + ': ' + away_score)
+                            print(home_name + ': ' + home_score)
                         print('')
 
                     elif not games_today:
                         if games_to_show > 0:
-                            header_text = away_team_locale + ' ' + away_team_name + \
-                                ' @ ' + home_team_locale + ' ' + home_team_name
+                            header_text = away_locale + ' ' + away_name + \
+                                ' @ ' + home_locale + ' ' + home_name
                             # Show the game number of current 7-game series
                             # if it's playoff time
                             if playoffs:
@@ -194,8 +190,8 @@ def main():
 
                             print header_text
                             print Fore.YELLOW + '(' + game_clock + ', ' + status + ' PDT)' + Fore.RESET
-                            print away_team_name + ': ' + away_team_score
-                            print home_team_name + ': ' + home_team_score
+                            print away_name + ': ' + away_score
+                            print home_name + ': ' + home_score
                             print ""
                             games_to_show -= 1
 
@@ -216,6 +212,25 @@ def print_help():
     print ''
 
 
+def parse_game_info(game_info):
+    # Assign more meaningful names
+    parsed_list = {
+        game_id: str(game_info['id']),
+        game_clock: game_info['ts'],
+        game_stage: game_info['tsc'],
+        status: game_info['bs'],
+        away_locale: game_info['atn'],
+        away_name: game_info['atv'].title(),
+        away_score: game_info['ats'],
+        away_result: game_info['atc'],
+        home_locale: game_info['htn'],
+        home_name: game_info['htv'].title(),
+        home_score: game_info['hts'],
+        home_result: game_info['htc'],
+    }
+    return parsed_list
+
+
 def get_address(game_id, season):
     prefix = 'http://live.nhle.com/GameData/'
     suffix = '/gc/gcsb.jsonp'
@@ -229,7 +244,7 @@ def fix_locale(team_locale):
     # + name == "NY Islanders islanders"
     if 'NY ' in team_locale:
         return 'New York'
-    #
+    # 
     if 'Montr' in team_locale:
         return u'Montréal'
 
@@ -266,10 +281,10 @@ def fix_name(team_name):
 
 def print_schedule():
     for games in next_two_weeks:
-        print away_team_locale + ' ' + away_team_name + ' @ ' + home_team_locale + ' ' + home_team_name
+        print away_locale + ' ' + away_name + ' @ ' + home_locale + ' ' + home_name
         print Fore.YELLOW + '(' + game_clock + ', ' + status + ' EDT)' + Fore.RESET
-        print away_team_name + ': ' + away_team_score
-        print home_team_name + ': ' + home_team_score
+        print away_name + ': ' + away_score
+        print home_name + ': ' + home_score
         print "\n"
 
 
