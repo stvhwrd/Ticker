@@ -25,4 +25,4 @@ Once you've ensured that your system meets the requirements, open a terminal win
 
 ## License
 
-[GNU GENERAL PUBLIC LICENSE](http://choosealicense.com/licenses/gpl-3.0/#)     -- Version 3, 29 June 2007
+[MIT License]
