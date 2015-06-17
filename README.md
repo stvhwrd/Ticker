@@ -11,6 +11,7 @@ A simple Python script to display the score of current and recently finished NHL
     * `pip install requests`
 * Colorama
     * `pip install colorama`
+
 ## Usage
 Once you've ensured that your system meets the requirements, open a terminal window and execute
 `python /your/path/to/ticker.py`
