@@ -46,15 +46,16 @@ def main():
         scraped_page = requests.get(API_URL)
 
         # Convert the scraped page to text to do some cropping
-        json_data    = scraped_page.text
+        scraped_page    = scraped_page.text
 
         # Crop the leading text: 'loadScoreboard('
-        json_data    = json_data.replace('loadScoreboard(', '')
+        scraped_page    = scraped_page.replace('loadScoreboard(', '')
 
         # Crop the trailing text: ')'
-        json_data    = json_data[:-1]
+        scraped_page    = scraped_page[:-1]
 
-        data         = json.loads(json_data)
+        # Read in again as JSON
+        data         = scraped_page(json_data)
 
         for key in data:
             if key == 'games':
