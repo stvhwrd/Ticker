@@ -1,5 +1,5 @@
 # Ticker
-A simple Python script to display the score of current and recently finished NHL games.  When no games have been played in the last two days, the upcoming schedule will be displayed instead.
+A web scraper built with Python to display the score of current and recently finished NHL games.  The score is scraped directly from the NHL website every 30 seconds.  During intermissions (between periods), a countdown clock is displayed.
 
 ![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png)
 
@@ -24,6 +24,9 @@ Once you've ensured that your system meets the requirements, open a terminal win
 * Windows 8.1 x64 with Python 2.7.9
 * Ubuntu 14.04.2 LTS x64 with Python 2.7.6
 
+## Goal
+I hope to extend this ticker-type functionality to other sports leagues.  I plan to make the main script generic and then pull in header files for whichever specific league the user chooses at runtime.  Next league I'll implement will probably be MLB since their 162 games * 30 teams allows for a lot of live testing!
+
 ## License
 
-[MIT License]
+[MIT License](http://opensource.org/licenses/MIT)
