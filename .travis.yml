@@ -11,7 +11,7 @@ install:
 
 # set permissions
 before_script:
- - chmod 777 ticker.py
+ - chmod a+x ./ticker.py
 
 # command to run tests
 script: ticker.py
