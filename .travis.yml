@@ -1,7 +1,13 @@
 language: python
-
+python:
+  - "2.6"
+  - "2.7"
+# command to install dependencies
 install:
-  - pip install requests
-  - pip install colorama
-
-script: python ./ticker.py
+  - "pip install requests"
+  - "pip install colorama"
+# command to run tests
+script: ticker.py
+# turn off email notifications
+notifications:
+    email: false
