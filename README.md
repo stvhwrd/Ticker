@@ -1,9 +1,12 @@
 # Ticker
 
 [![Join the chat at https://gitter.im/stvhwrd/Ticker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stvhwrd/Ticker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+<br>
+
 A web scraper built with Python to display the score of current and recently finished NHL games.  The score is scraped directly from the NHL website every 30 seconds.  During intermissions (between periods), a countdown clock is displayed.
 
-![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png)
+![Exhibit A](https://raw.githubusercontent.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png)
 
 ## Requirements
 
