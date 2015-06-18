@@ -1,7 +1,6 @@
 language: python
 
 install:
-  - brew install python
   - pip install requests
   - pip install colorama
 
