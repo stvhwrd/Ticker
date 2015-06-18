@@ -4,4 +4,4 @@ install:
   - pip install requests
   - pip install colorama
 
-script: ./ticker.py
+script: python ./ticker.py
