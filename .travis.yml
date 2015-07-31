@@ -15,7 +15,7 @@ install:
 
 # command to run tests
 script:
-  - python ticker.py
+  - python ticker.py --test
 
 # # turn off email notifications
 # notifications:
