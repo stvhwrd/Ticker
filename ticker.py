@@ -43,7 +43,7 @@ def main():
     while True:
         clear_screen()
 
-        scraped_page = requests.get(API_URL)
+        scraped_page    = requests.get(API_URL)
 
         # Convert the scraped page to text to do some cropping
         scraped_page    = scraped_page.text
@@ -55,7 +55,7 @@ def main():
         scraped_page    = scraped_page[:-1]
 
         # Read in again as JSON
-        data         = scraped_page(json_data)
+        data            = json.loads(scraped_page)
 
         for key in data:
             if key == 'games':
