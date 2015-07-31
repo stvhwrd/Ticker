@@ -13,7 +13,7 @@ import requests
 
 REFRESH_TIME = 30  # Minimize delay by doubling the API refresh rate
 API_URL      = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp'
-
+TEST         = False
 
 def main():
     ''''''
@@ -184,8 +184,11 @@ def main():
                             print ""
                             games_to_show -= 1
 
-        # Perform the sleep
-        time.sleep(REFRESH_TIME)
+        # Perform the sleep if we're not currently testing
+        if TEST is True:
+            sys.exit(0)
+        else:
+            time.sleep(REFRESH_TIME)
 
 
 def clear_screen():
@@ -202,7 +205,7 @@ def print_help():
 
 
 def parse_game_info(game_info):
-    # Assign more meaningful names
+    ''' Assign more meaningful names'''
     parsed_list = {
         game_id:     str(game_info['id']),
         game_clock:  game_info['ts'],
@@ -304,6 +307,10 @@ def parse_arguments(arguments):
         if argument == '--help' or argument == '-h':
             print_help()
             sys.exit(0)
+        if argument == '--test' or argument == '-t':
+            print "\nRunning in TEST mode.\n\n"
+            global TEST
+            TEST = True
 
 
 if __name__ == '__main__':
@@ -318,8 +325,7 @@ if __name__ == '__main__':
 
 # The MIT License (MIT)
 
-# Copyright (c) 2015 Stevie Howard
-# Copyright (c) 2015 John Freed
+# Copyright (c) 2015 John Freed, Stevie Howard
 
 # Permission is hereby granted, free of charge, to any person obtaining a copy of
 # this software and associated documentation files (the "Software"), to deal in
