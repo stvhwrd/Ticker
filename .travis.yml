@@ -9,13 +9,13 @@ install:
   - "pip install requests"
   - "pip install colorama"
 
-# set permissions
-before_script:
- - chmod a+x ./ticker.py
+# # set permissions
+# before_script:
+#  - chmod a+x ./ticker.py
 
 # command to run tests
-script: python ticker.py
+script: ticker.py
 
-# turn off email notifications
-notifications:
-    email: false
+# # turn off email notifications
+# notifications:
+#     email: false
