@@ -33,8 +33,10 @@ Fly me a message on Gitter if you have any questions.
 ## Goal
 I hope to extend this ticker-type functionality to other sports leagues.  I plan to make the main script generic and then pull in header files for whichever specific league the user chooses at runtime.  Next league I'll implement will probably be MLB since their 162 games * 30 teams allows for a lot of live testing.
 
-MLB livescore JSON at http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json
-NHL livescore JSON at http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp
+* MLB livescore JSON:
+   * http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json
+* NHL livescore JSON:
+   * http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp
 
 ## License
 
