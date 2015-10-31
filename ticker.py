@@ -19,7 +19,7 @@ def main():
     ''''''
     intermission_clock = 18.0
     games_today        = False
-    games_to_show      = 8
+    games_to_show      = 12
     saw_period_end     = True
 
     # Today's date
@@ -27,13 +27,17 @@ def main():
     today_date     = "" + t_object.strftime("%A") + " " + "%s/%s" % (t_object.month, t_object.day)
 
     # Yesterday's date
-    y_object       = t_object - datetime.timedelta(days=1)
+    y_object       = t_object - datetime.timedelta(days = 1)
+    yesterday_date = "" + y_object.strftime("%A") + " " + "%s/%s" % (y_object.month, y_object.day)
+
+        # Day before's date
+    y_object       = t_object - datetime.timedelta(days = 2)
     yesterday_date = "" + y_object.strftime("%A") + " " + "%s/%s" % (y_object.month, y_object.day)
 
     # Next two weeks
     next_two_weeks = []
     for index in range(1, 15):
-        d_object   = t_object + datetime.timedelta(days=index)
+        d_object   = t_object + datetime.timedelta(days = index)
         next_day   = "" + d_object.strftime("%A") + " " + "%s/%s" % (d_object.month, d_object.day)
         next_two_weeks.append(next_day)
 
@@ -41,7 +45,6 @@ def main():
     season = str(t_object.year - 1) + str(t_object.year) + '/'
 
     while True:
-        clear_screen()
 
         scraped_page    = requests.get(API_URL)
 
@@ -56,6 +59,8 @@ def main():
 
         # Read in again as JSON
         data            = json.loads(scraped_page)
+
+        clear_screen()
 
         for key in data:
             if key == 'games':
@@ -88,8 +93,10 @@ def main():
                         playoffs = True
 
                     # Show games from yesterday and today
-                    if yesterday_date in game_clock.title() \
-                    or today_date in game_clock.title() \
+                    # if yesterday_date in game_clock.title() \
+                    # or today_date in game_clock.title() \
+                    # Show games from today only
+                    if today_date in game_clock.title() \
                     or 'TODAY' in game_clock \
                     or 'LIVE' in status:
                         games_today = True
@@ -113,10 +120,10 @@ def main():
                                 header_text += game_clock.title()
                             header_text += '(' + status + ')'
 
-                        # Upcoming game, ex: TUESDAY 4/21, 7:00 PM PDT)
+                        # Upcoming game, ex: TUESDAY 4/21, 7:00 PM MDT)
                         elif 'DAY' in game_clock and not 'FINAL' in status:
-                            status = eastern_to_pacific(status)
-                            header_text += Fore.YELLOW + '\n(' + game_clock + ', ' + status + ' PDT)' + Fore.RESET
+                            status = eastern_to_mountain(status)
+                            header_text += Fore.YELLOW + '\n(' + game_clock + ', ' + status + ' MDT)' + Fore.RESET
 
                         # Last 5 minutes of game and overtime, ex: (1:59 3rd
                         # PERIOD) *in red font*
@@ -169,20 +176,21 @@ def main():
                             print(home_name + ': ' + home_score)
                         print('')
 
-                    elif not games_today:
-                        if games_to_show > 0:
-                            header_text = away_locale + ' ' + away_name + ' @ ' + home_locale + ' ' + home_name
-                            # Show the game number of current 7-game series
-                            # if it's playoff time
-                            if playoffs:
-                                header_text += ' -- Game ' + series_game_number
+                    # # If no games today, show the upcoming game schedule
+                    # elif not games_today:
+                    #     if games_to_show > 0:
+                    #         header_text = away_locale + ' ' + away_name + ' @ ' + home_locale + ' ' + home_name
+                    #         # Show the game number of current 7-game series
+                    #         # if it's playoff time
+                    #         if playoffs:
+                    #             header_text += ' -- Game ' + series_game_number
 
-                            print header_text
-                            print Fore.YELLOW + '(' + game_clock + ', ' + status + ' PDT)' + Fore.RESET
-                            print away_name + ': ' + away_score
-                            print home_name + ': ' + home_score
-                            print ""
-                            games_to_show -= 1
+                    #         print header_text
+                    #         print Fore.YELLOW + '(' + game_clock + ', ' + status + ' MDT)' + Fore.RESET
+                    #         print away_name + ': ' + away_score
+                    #         print home_name + ': ' + home_score
+                    #         print ""
+                    #         games_to_show -= 1
 
         # Perform the sleep if we're not currently testing
         if TEST is True:
@@ -280,23 +288,37 @@ def print_schedule():
         print "\n"
 
 
-def eastern_to_pacific(clock):
-    '''Translate time into Pacific for us West Coast-ers'''
-    pacific_time = {
-        '12:00 PM': '9:00 AM',
-        '1:00 PM': '10:00 AM',
-        '2:00 PM': '11:00 AM',
-        '3:00 PM': '12:00 PM',
-        '4:00 PM': '1:00 PM',
-        '5:00 PM': '2:00 PM',
-        '6:00 PM': '3:00 PM',
-        '7:00 PM': '4:00 PM',
-        '8:00 PM': '5:00 PM',
-        '9:00 PM': '6:00 PM',
-        '10:00 PM': '7:00 PM',
-        '11:00 PM': '8:00 PM',
+def eastern_to_mountain(clock):
+    '''Translate time into mountain time for us Albertans'''
+    mountain_time = {
+        '11:00 AM': '9:00 AM',
+        '11:30 AM': '9:30 AM',
+        '12:00 PM': '10:00 AM',
+        '12:30 PM': '10:30 AM',
+        '1:00 PM': '11:00 AM',
+        '1:30 PM': '11:30 AM',
+        '2:00 PM': '12:00 AM',
+        '2:30 PM': '12:30 AM',
+        '3:00 PM': '1:00 PM',
+        '3:30 PM': '1:30 PM',
+        '4:00 PM': '2:00 PM',
+        '4:30 PM': '2:30 PM',
+        '5:00 PM': '3:00 PM',
+        '5:30 PM': '3:30 PM',
+        '6:00 PM': '4:00 PM',
+        '6:30 PM': '4:30 PM',
+        '7:00 PM': '5:00 PM',
+        '7:30 PM': '5:30 PM',
+        '8:00 PM': '6:00 PM',
+        '8:30 PM': '6:30 PM',
+        '9:00 PM': '7:00 PM',
+        '9:30 PM': '7:30 PM',
+        '10:00 PM': '8:00 PM',
+        '10:30 PM': '8:30 PM',
+        '11:00 PM': '9:00 PM',
+        '11:30 PM': '9:30 PM',
     }
-    return pacific_time[clock]
+    return mountain_time[clock]
 
 
 def parse_arguments(arguments):

@@ -67,8 +67,8 @@ def main():
                     # example format:
                         #     BALL 2 STRIKE 1 OUT 2
                         #                             1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
-                        #                             -----------------------------------        
-                        # VISITOR: Toronto Blue Jays  1 | 0 | 2 | 0 | 0 | 2 | 0 |   |   | 
+                        #                             -----------------------------------
+                        # VISITOR: Toronto Blue Jays  1 | 0 | 2 | 0 | 0 | 2 | 0 |   |   |
                         # HOME:    Baltimore Orioles  2 | 0 | 2 | 0 | 2 | 1 | 2 |   |   |
 
                     print "BALL"
@@ -249,13 +249,11 @@ def build_url():
     month_string   = "/month_" + t_object.month
     year_string    = "/year_"  + t_object.year
 
-
-    API_URL += year_string + month_string + day_string 
+    API_URL += year_string + month_string + day_string
     prefix = 'http://gd2.mlb.com/components/game/mlb'
     suffix = '/master_scoreboard.json'
-    game_url = prefix + season + str(game_id) + suffix
 
-    return game_url
+    return (prefix + API_URL + suffix)
 
 
 def fix_locale(team_locale):
