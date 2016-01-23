@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 # -*- coding: utf-8 -*-
+# Originally forked from John Freed's NHL-Scores - https://github.com/jtf323/NHL-Scores
 
 from colorama import init, Fore, Style
 import datetime
@@ -146,8 +147,7 @@ def main():
                             if 'END ' in game_clock and 'FINAL' not in status and saw_period_end:
                                 if 'END 3rd' in game_clock or 'OT' in game_clock:
                                     intermission_clock = 15.0
-                                print_intermission_clock(
-                                    header_text, intermission_clock)
+                                print_intermission_clock(header_text, intermission_clock)
 
                             header_text += Fore.YELLOW + ')' + Style.RESET_ALL
 
@@ -318,7 +318,10 @@ def eastern_to_mountain(clock):
         '11:00 PM': '9:00 PM',
         '11:30 PM': '9:30 PM',
     }
-    return mountain_time[clock]
+    if clock in mountain_time:
+        return mountain_time[clock]
+    else:
+        return clock + "No timezone"
 
 
 def parse_arguments(arguments):
