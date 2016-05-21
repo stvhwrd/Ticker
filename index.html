@@ -32,16 +32,18 @@
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
         <h1>
-<a id="ticker" class="anchor" href="#ticker" aria-hidden="true"><span class="octicon octicon-link"></span></a>Ticker</h1>
-
-<p><a href="https://travis-ci.org/stvhwrd/Ticker"><img src="https://travis-ci.org/stvhwrd/Ticker.svg?branch=master" alt="Build Status"></a></p>
+<a id="ticker---" class="anchor" href="#ticker---" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ticker <a href="https://gitter.im/stvhwrd/Ticker?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/stvhwrd/Ticker"></a>  <a href="https://travis-ci.org/stvhwrd/Ticker"><img src="https://travis-ci.org/stvhwrd/Ticker.svg?branch=master" alt="Build Status"></a>
+</h1>
 
 <p>A web scraper built with Python to display the score of current and recently finished NHL games.  The score is scraped directly from the NHL website every 30 seconds.  During intermissions (between periods), a countdown clock is displayed.</p>
 
 <p><img src="https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png?raw=true" alt="Exhibit A"></p>
 
+<h3>
+<a id="note-05212016-this-script-has-not-been-maintained-or-updated-since-the-nhls-media-was-taken-over-by-mlbam-and-their-json-structureurl-was-changed-from-this-to-this" class="anchor" href="#note-05212016-this-script-has-not-been-maintained-or-updated-since-the-nhls-media-was-taken-over-by-mlbam-and-their-json-structureurl-was-changed-from-this-to-this" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Note 05/21/2016: this script has not been maintained or updated since the NHL's media was taken over by MLBAM and their JSON structure/URL was changed from <a href="http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp">this</a> to <a href="https://statsapi.web.nhl.com/api/v1/schedule">this</a>.</h3>
+
 <h2>
-<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Requirements</h2>
 
 <ul>
 <li>Python 2.7
@@ -65,19 +67,17 @@
 </ul>
 
 <h2>
-<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
 
-<p>Once you've ensured that your system meets the requirements, open a terminal window and execute
-<code>python /your/path/to/ticker.py</code>
-<br>
+<p>Once you've ensured that your system meets the requirements, open a terminal window and execute</p>
+
+<p><code>python /your/path/to/ticker.py</code></p>
+
+<p><br>
 <br></p>
 
-<p>Float me a message on Gitter if you have any questions.</p>
-
-<p><a href="https://gitter.im/stvhwrd/Ticker?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/stvhwrd/Ticker"></a></p>
-
 <h2>
-<a id="tested-on" class="anchor" href="#tested-on" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tested on</h2>
+<a id="tested-on" class="anchor" href="#tested-on" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tested on</h2>
 
 <ul>
 <li>OS X 10.10.3 with Python 2.7.9</li>
@@ -86,12 +86,32 @@
 </ul>
 
 <h2>
-<a id="goal" class="anchor" href="#goal" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goal</h2>
+<a id="goal" class="anchor" href="#goal" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Goal</h2>
 
-<p>I hope to extend this ticker-type functionality to other sports leagues.  I plan to make the main script generic and then pull in header files for whichever specific league the user chooses at runtime.  Next league I'll implement will probably be MLB since their 162 games * 30 teams allows for a lot of live testing!</p>
+<p>I hope to extend this ticker-type functionality to other sports leagues.  I plan to make the main script generic and then pull in header files for whichever specific league the user chooses at runtime.  Next league I'll implement will probably be MLB since their 162 games * 30 teams allows for a lot of live testing.</p>
+
+<ul>
+<li>MLB livescore JSON:
+
+<ul>
+<li><a href="http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json">http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json</a></li>
+</ul>
+</li>
+<li>NHL livescore JSON:
+
+<ul>
+<li>
+<a href="http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp">http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp</a> (old one)</li>
+<li>
+<a href="https://statsapi.web.nhl.com/api/v1/schedule">https://statsapi.web.nhl.com/api/v1/schedule</a> (much improved new one)</li>
+</ul>
+</li>
+</ul>
 
 <h2>
-<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>Copyright 2016 <a href="https://github.com/jtf323">John Freed</a> and <a href="https://github.com/stvhwrd">Stevie Howard</a>.</p>
 
 <p><a href="http://opensource.org/licenses/MIT">MIT License</a></p>
       </section>
@@ -105,7 +125,17 @@
       </footer>
     </div>
 
-    
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-60400716-4");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
 
   </body>
 </html>
