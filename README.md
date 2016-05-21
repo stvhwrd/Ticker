@@ -40,4 +40,6 @@ I hope to extend this ticker-type functionality to other sports leagues.  I plan
 
 ## License
 
+Copyright 2016, [John Freed](https://github.com/jtf323) and [Stevie Howard](https://github.com/stvhwrd).
+
 [MIT License](http://opensource.org/licenses/MIT)
