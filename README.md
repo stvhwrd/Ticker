@@ -17,8 +17,11 @@ A web scraper built with Python to display the score of current and recently fin
 * Colorama
     * `pip install colorama`
 
+
 ## Usage
+
 Once you've ensured that your system meets the requirements, open a terminal window and execute
+
 `python /your/path/to/ticker.py`
 
 <br>
@@ -36,7 +39,9 @@ I hope to extend this ticker-type functionality to other sports leagues.  I plan
 * MLB livescore JSON:
    * http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json
 * NHL livescore JSON:
-   * http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp
+   * http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp (old one)
+   * https://statsapi.web.nhl.com/api/v1/schedule (much improved new one)
+
 
 ## License
 
