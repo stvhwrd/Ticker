@@ -5,7 +5,8 @@ A web scraper built with Python to display the score of current and recently fin
 
 ![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png?raw=true)
 
-###Note 05/21/2016: this script has not been maintained or updated since the NHL's media was taken over by MLBAM and their JSON structure/URL was changed from [this](http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp) to [this](https://statsapi.web.nhl.com/api/v1/schedule).
+### Note 05/21/2016:
+Although it does still (somewhat) function - this script has not been maintained or updated since the NHL's media was taken over by MLBAM and their JSON structure/URL was changed from **[this](http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp)** to **[this](https://statsapi.web.nhl.com/api/v1/schedule)**.
 
 
 ## Requirements
