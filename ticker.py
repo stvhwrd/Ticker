@@ -269,12 +269,16 @@ def fix_name(team_name):
         return 'Red Wings'
 
     # Change "bluejackets" to "Blue Jackets"
-    if 'jackets' in team_name:
+    elif 'jackets' in team_name:
         return 'Blue Jackets'
 
     # Change "mapleleafs" to "Maple Leafs"
-    if 'leafs' in team_name:
+    elif 'leafs' in team_name:
         return 'Maple Leafs'
+
+    # Change "goldenknights" to "Maple Leafs"
+    elif 'knights' in team_name:
+        return 'Golden Knights'
 
     return team_name
 
@@ -290,6 +294,7 @@ def print_schedule():
 
 def eastern_to_mountain(clock):
     '''Translate time into mountain time for us Albertans'''
+    # this is a total hack and is the opposite of good engineering... @todo: use tz
     mountain_time = {
         '11:00 AM': '9:00 AM',
         '11:30 AM': '9:30 AM',
