@@ -3,6 +3,7 @@
 # Originally forked from John Freed's NHL-Scores - https://github.com/jtf323/NHL-Scores
 
 from colorama import init, Fore, Style
+from pytz import reference
 import datetime
 import json
 import os
@@ -123,8 +124,8 @@ def main():
 
                         # Upcoming game, ex: TUESDAY 4/21, 7:00 PM MDT)
                         elif 'DAY' in game_clock and not 'FINAL' in status:
-                            status = eastern_to_mountain(status)
-                            header_text += Fore.YELLOW + '\n(' + game_clock + ', ' + status + ' MDT)' + Fore.RESET
+                            timezone = local_time()
+                            header_text += Fore.YELLOW + '\n(' + game_clock + ', ' + status + ' ' + timezone + ')' + Fore.RESET
 
                         # Last 5 minutes of game and overtime, ex: (1:59 3rd
                         # PERIOD) *in red font*
@@ -292,41 +293,11 @@ def print_schedule():
         print "\n"
 
 
-def eastern_to_mountain(clock):
-    '''Translate time into mountain time for us Albertans'''
-    # this is a total hack and is the opposite of good engineering... @todo: use tz
-    mountain_time = {
-        '11:00 AM': '9:00 AM',
-        '11:30 AM': '9:30 AM',
-        '12:00 PM': '10:00 AM',
-        '12:30 PM': '10:30 AM',
-        '1:00 PM': '11:00 AM',
-        '1:30 PM': '11:30 AM',
-        '2:00 PM': '12:00 AM',
-        '2:30 PM': '12:30 AM',
-        '3:00 PM': '1:00 PM',
-        '3:30 PM': '1:30 PM',
-        '4:00 PM': '2:00 PM',
-        '4:30 PM': '2:30 PM',
-        '5:00 PM': '3:00 PM',
-        '5:30 PM': '3:30 PM',
-        '6:00 PM': '4:00 PM',
-        '6:30 PM': '4:30 PM',
-        '7:00 PM': '5:00 PM',
-        '7:30 PM': '5:30 PM',
-        '8:00 PM': '6:00 PM',
-        '8:30 PM': '6:30 PM',
-        '9:00 PM': '7:00 PM',
-        '9:30 PM': '7:30 PM',
-        '10:00 PM': '8:00 PM',
-        '10:30 PM': '8:30 PM',
-        '11:00 PM': '9:00 PM',
-        '11:30 PM': '9:30 PM',
-    }
-    if clock in mountain_time:
-        return mountain_time[clock]
-    else:
-        return clock + "No timezone"
+def local_time():
+    '''figure out local timezone'''
+    today = datetime.datetime.now()
+    localtime = reference.LocalTimezone()
+    return localtime.tzname(today)
 
 
 def parse_arguments(arguments):
