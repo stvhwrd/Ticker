@@ -13,11 +13,17 @@ Although it does still (somewhat) function - this script has not been maintained
 
 * Python 2.7
     * `python --version`
+
+Additional requirements can be installed with [pip](https://pip.pypa.io/en/stable/):
+
 * Requests
     * `pip install requests`
 * Colorama
     * `pip install colorama`
+* Pytz
+    * `pip install pytz`
 
+There is a `requirements.txt` file provided that allows you to simply run `pip install -r requirements.txt`.
 
 ## Usage
 
@@ -30,9 +36,9 @@ Once you've ensured that your system meets the requirements, open a terminal win
 
 ## Tested on
 
-* OS X 10.10.3 with Python 2.7.9
-* Windows 8.1 x64 with Python 2.7.9
-* Ubuntu 14.04.2 LTS x64 with Python 2.7.6
+* macOS 10.13.1 with Python 2.7.10
+* Windows 10 x64 with Python 2.7.10
+* Ubuntu 16.04.3 LTS x64 with Python 2.7.10
 
 ## Goal
 I hope to extend this ticker-type functionality to other sports leagues.  I plan to make the main script generic and then pull in header files for whichever specific league the user chooses at runtime.  Next league I'll implement will probably be MLB since their 162 games * 30 teams allows for a lot of live testing.
