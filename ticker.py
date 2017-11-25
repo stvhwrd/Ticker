@@ -72,7 +72,9 @@ def main():
                         playoffs = True
 
                     # Show today's games
-                    if today_date in game_clock.title() or 'TODAY' in game_clock or 'LIVE' in status:
+                    if today_date in game_clock.title() \
+                        or 'TODAY' in game_clock \
+                            or 'LIVE' in status:
                         games_today = True
                         header_text = away_locale + ' ' + away_name + \
                             ' @ ' + home_locale + ' ' + home_name
@@ -131,25 +133,28 @@ def main():
 
                         print(header_text)
 
-                        # Highlight the winner of finished games in blue, and games underway in green:
+                        # Highlight the winner of finished games in blue, games underway in green:
                         if away_result == 'winner':  # Away team wins
-                            print(Style.BRIGHT + Fore.BLUE + away_name + ' ' + away_score + Style.RESET_ALL + ' - ' + home_score + ' ' + home_name)
+                            print(Style.BRIGHT + Fore.BLUE + away_name + ' ' + away_score
+                                  + Style.RESET_ALL + ' - ' + home_score + ' ' + home_name)
                         elif home_result == 'winner':  # Home team wins
-                            print(away_name + ' ' + away_score + ' - ' + Style.BRIGHT + Fore.BLUE + home_score + ' ' + home_name + Style.RESET_ALL)
-                        elif 'progress' in game_stage or 'critical' in game_stage:  # Game still underway
-                            print(Fore.GREEN + away_name + ' ' + away_score + ' - ' + home_score + ' ' + home_name + Fore.RESET)
+                            print(away_name + ' ' + away_score + ' - ' + Style.BRIGHT
+                                  + Fore.BLUE + home_score + ' ' + home_name + Style.RESET_ALL)
+                        elif 'progress' in game_stage or 'critical' in game_stage:  # Game underway
+                            print(Fore.GREEN + away_name + ' ' + away_score + ' - '
+                                  + home_score + ' ' + home_name + Fore.RESET)
                         # else:  # other
                         #     print(away_name + ' ' + away_score +
                         #           ' - ' + home_score + ' ' + home_name)
                         print('')
-                    else:
+                    elif not games_today:
                         print("\nThere are no NHL games scheduled for today.\n")
         # Perform the sleep if we're not currently testing
         if TEST is True:
             sys.exit(0)
         else:
             time.sleep(REFRESH_TIME)
-            print("\n\n\n")
+            print("")
 
 
 def clear_screen():
@@ -163,33 +168,6 @@ def print_help():
     ''' response to the --help flag'''
     print 'By default games from yesterday and today will be displayed.'
     print ''
-
-
-def parse_game_info(game_info):
-    ''' assign more meaningful names'''
-    parsed_list = {
-        game_id:     str(game_info['id']),
-        game_clock:  game_info['ts'],
-        game_stage:  game_info['tsc'],
-        status:      game_info['bs'],
-        away_locale: game_info['atn'],
-        away_name:   game_info['atv'].title(),
-        away_score:  game_info['ats'],
-        away_result: game_info['atc'],
-        home_locale: game_info['htn'],
-        home_name:   game_info['htv'].title(),
-        home_score:  game_info['hts'],
-        home_result: game_info['htc'],
-    }
-    return parsed_list
-
-
-def get_address(game_id, season):
-    prefix = 'http://live.nhle.com/GameData/'
-    suffix = '/gc/gcsb.jsonp'
-    game_url = prefix + season + str(game_id) + suffix
-
-    return game_url
 
 
 def fix_locale(team_locale):
