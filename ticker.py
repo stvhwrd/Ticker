@@ -147,8 +147,10 @@ def main():
                         #     print(away_name + ' ' + away_score +
                         #           ' - ' + home_score + ' ' + home_name)
                         print('')
-                    elif not games_today:
-                        print("\nThere are no NHL games scheduled for today.\n")
+        
+        if not games_today:
+            print("\nThere are no NHL games scheduled for today.\n")
+        
         # Perform the sleep if we're not currently testing
         if TEST is True:
             sys.exit(0)
@@ -171,12 +173,9 @@ def print_help():
 
 
 def fix_locale(team_locale):
-    # NHL API forces team name in locale for both New York teams, i.e. locale
-    # + name == "NY Islanders islanders"
     if 'NY ' in team_locale:
         return 'New York'
-    #
-    if 'Montr' in team_locale:
+    elif 'Montr' in team_locale:
         return u'Montréal'
 
     return team_locale
@@ -212,15 +211,6 @@ def fix_name(team_name):
         return 'Golden Knights'
 
     return team_name
-
-
-def print_schedule():
-    for games in next_two_weeks:
-        print away_locale + ' ' + away_name + ' @ ' + home_locale + ' ' + home_name
-        print Fore.YELLOW + '(' + game_clock + ', ' + status + ' EDT)' + Fore.RESET
-        print away_name + ' ' + away_score
-        print home_name + ': ' + home_score
-        print "\n"
 
 
 def local_time():
