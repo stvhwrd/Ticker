@@ -1,9 +1,9 @@
 # Ticker [![Join the chat at https://gitter.im/stvhwrd/Ticker](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/stvhwrd/Ticker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  [![Build Status](https://travis-ci.org/stvhwrd/Ticker.svg?branch=master)](https://travis-ci.org/stvhwrd/Ticker)
 
 
-A web scraper built with Python to display the score of current and recently finished NHL games.  The score is scraped directly from the NHL website every 30 seconds.  During intermissions (between periods), a countdown clock is displayed.
+A Python web scraper built to display the score of current and recently finished NHL games.  The score is scraped directly from the NHL website every 30 seconds.
 
-![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/IntermissionClock.png?raw=true)
+![Exhibit A](https://github.com/stvhwrd/Ticker/blob/master/Screenshots/screenshot.png?raw=true)
 
 ### Note 05/21/2016:
 Although it does still (somewhat) function - this script has not been maintained or updated since the NHL's media was taken over by MLBAM and their JSON structure/URL was changed from **[this](http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp)** to **[this](https://statsapi.web.nhl.com/api/v1/schedule)**.
@@ -11,34 +11,26 @@ Although it does still (somewhat) function - this script has not been maintained
 
 ## Requirements
 
-* Python 2.7
-    * `python --version`
+* Python 3.6<sup>+</sup>
+    * `python3 --version`
 
-Additional requirements can be installed with [pip](https://pip.pypa.io/en/stable/):
+Additional requirements can be installed with [pip](https://pip.pypa.io/en/stable/) - there is a `requirements.txt` file provided that allows you to simply run `pip3 install -r requirements.txt`.  Included in this file are the following packages:
 
-* Requests
-    * `pip install requests`
-* Colorama
-    * `pip install colorama`
-* Pytz
-    * `pip install pytz`
-
-There is a `requirements.txt` file provided that allows you to simply run `pip install -r requirements.txt`.
+* [Requests](https://pypi.python.org/pypi/requests)
+    * `pip3 install requests`
+* [Colorama](https://pypi.python.org/pypi/colorama)
+    * `pip3 install colorama`
+* [Pytz](https://pypi.python.org/pypi/pytz)
+    * `pip3 install pytz`
 
 ## Usage
 
 Once you've ensured that your system meets the requirements, open a terminal window and execute
 
-`python /your/path/to/ticker.py`
+`python3 your/path/to/ticker.py`
 
 <br>
 <br>
-
-## Tested on
-
-* macOS 10.13.1 with Python 2.7.10
-* Windows 10 x64 with Python 2.7.10
-* Ubuntu 16.04.3 LTS x64 with Python 2.7.10
 
 ## Goal
 I hope to extend this ticker-type functionality to other sports leagues.  I plan to make the main script generic and then pull in header files for whichever specific league the user chooses at runtime.  Next league I'll implement will probably be MLB since their 162 games * 30 teams allows for a lot of live testing.

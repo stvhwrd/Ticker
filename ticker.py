@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 '''show scores of today's NHL games'''
 
@@ -12,7 +12,8 @@ import requests
 from colorama import init, Fore, Style
 from pytz import reference
 
-REFRESH_TIME = 30  # Minimize delay by doubling the API refresh rate
+# API purportedly updates every 60 seconds
+REFRESH_TIME = 30
 API_URL = 'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp'
 TEST = False
 
@@ -113,29 +114,29 @@ def main():
 
                             header_text += Fore.YELLOW + ')' + Style.RESET_ALL
 
-                        print header_text
+                        print(header_text)
 
                         # Highlight the winner of finished games in blue, games underway in green:
                         if away_result == 'winner':  # Away team wins
-                            print Style.BRIGHT + Fore.BLUE + away_name + ' ' + away_score \
-                                  + Style.RESET_ALL + ' - ' + home_score + ' ' + home_name
+                            print(Style.BRIGHT + Fore.BLUE + away_name + ' ' + away_score
+                                  + Style.RESET_ALL + ' - ' + home_score + ' ' + home_name)
                         elif home_result == 'winner':  # Home team wins
-                            print away_name + ' ' + away_score + ' - ' + Style.BRIGHT \
-                                  + Fore.BLUE + home_score + ' ' + home_name + Style.RESET_ALL
+                            print(away_name + ' ' + away_score + ' - ' + Style.BRIGHT
+                                  + Fore.BLUE + home_score + ' ' + home_name + Style.RESET_ALL)
                         elif 'progress' in game_stage or 'critical' in game_stage:  # Game underway
-                            print Fore.GREEN + away_name + ' ' + away_score + ' - ' \
-                                  + home_score + ' ' + home_name + Fore.RESET
-                        print '\n'
+                            print(Fore.GREEN + away_name + ' ' + away_score + ' - '
+                                  + home_score + ' ' + home_name + Fore.RESET)
+                        print('')
 
         if not games_today:
-            print "\nThere are no NHL games scheduled for today.\n"
+            print('\nThere are no NHL games scheduled for today.\n')
 
         # Perform the sleep only if we're not currently testing
         if TEST is True:
             sys.exit(0)
         else:
             time.sleep(REFRESH_TIME)
-            print '\n'
+            print('\n')
 
 
 def clear_screen():
@@ -183,7 +184,7 @@ def parse_arguments(arguments):
         argument = arguments[index]
 
         if argument == '--test' or argument == '-t':
-            print 'Running in TEST mode.\n'
+            print('Running in TEST mode.\n')
             global TEST
             TEST = True
 

@@ -1,5 +1,5 @@
-# requirements for ticker.py
+# Python 3 requirements for ticker.py
 
 colorama>=0.3.9
-pytz>=2013.7
-requests>=2.7.0
+pytz>=2017.3
+requests>=2.18.4
