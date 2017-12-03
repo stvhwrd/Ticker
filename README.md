@@ -35,7 +35,7 @@ Once you've ensured that your system meets the requirements, open a terminal win
    * http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp (old one)
    * https://statsapi.web.nhl.com/api/v1/schedule (much richer "new" one, will move to this in future)
 
-In future, I plan to support other leagues, likely startin with MLB:
+In future, I plan to support other leagues, likely starting with MLB:
 * MLB livescore JSON:
    * http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json
    
