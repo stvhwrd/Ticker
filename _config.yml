@@ -1,0 +1,8 @@
+title: Ticker
+description: Display a live-updating scoreline of both live and recently finished NHL hockey games in your terminal or widget
+google_analytics: UA-60400716-4
+show_downloads: true
+theme: jekyll-theme-slate
+
+gems:
+  - jekyll-mentions
