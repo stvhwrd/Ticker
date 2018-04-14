@@ -14,7 +14,6 @@ from colorama import init, Fore, Style
 # API purportedly updates every 60 seconds
 REFRESH_TIME = -1
 
-
 class Game:
     """Game represents a scheduled NHL game"""
 
@@ -196,9 +195,7 @@ def playoff_series_info(round, series):
             "2": "Western Conference Finals",
         },
         "04": {
-            "1": {
-                "1": "Stanley Cup Final"
-            },
+            "1": "Stanley Cup Final"
         }
     }
     return title[round][series]
