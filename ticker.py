@@ -6,7 +6,6 @@ import argparse
 import datetime
 import json
 import os
-import platform
 import requests
 import sys
 import time
@@ -15,28 +14,29 @@ from colorama import init, Fore, Style
 # API purportedly updates every 60 seconds
 REFRESH_TIME = -1
 
+
 class Game:
     """Game represents a scheduled NHL game"""
 
     def __init__(self, game_info):
-        self.game_id     = str(game_info['id'])
-        self.game_clock  = game_info['ts']
-        self.game_stage  = game_info['tsc']
-        self.status      = game_info['bs']
+        self.game_id = str(game_info['id'])
+        self.game_clock = game_info['ts']
+        self.game_stage = game_info['tsc']
+        self.status = game_info['bs']
         self.away_locale = fix_locale(game_info['atn'])
-        self.away_name   = fix_name(game_info['atv'])
-        self.away_score  = game_info['ats']
+        self.away_name = fix_name(game_info['atv'])
+        self.away_score = game_info['ats']
         self.away_result = game_info['atc']
         self.home_locale = fix_locale(game_info['htn'])
-        self.home_name   = fix_name(game_info['htv'])
-        self.home_score  = game_info['hts']
+        self.home_name = fix_name(game_info['htv'])
+        self.home_score = game_info['hts']
         self.home_result = game_info['htc']
 
         # Playoff-specific game information
         if '03' in self.game_id[4:6]:
-            self.playoffs            = True
-            self.playoff_round       = self.game_id[6:8]
-            self.playoff_series_id   = self.game_id[8:9]
+            self.playoffs = True
+            self.playoff_round = self.game_id[6:8]
+            self.playoff_series_id = self.game_id[8:9]
             self.playoff_series_game = self.game_id[9]
         else:
             self.playoffs = False
@@ -52,9 +52,8 @@ class Game:
         colour_print('red', matchup.center(width))
 
     def print_playoff_info(self, width):
-        round = self.playoff_round
-        series = self.playoff_series_id
-        playoff_info = playoff_series_info(round, series)
+        playoff_info = playoff_series_info(
+            self.playoff_round, self.playoff_series_id)
         playoff_info += ' -- GAME ' + self.playoff_series_game
         colour_print('bright', playoff_info.center(width))
         print(''.center(width, '-'))
@@ -69,16 +68,18 @@ class Game:
     def is_scheduled_for(self, date):
         if 'TODAY' in self.game_clock or \
             'LIVE' in self.status or \
-            date.upper() in self.game_clock:
+                date.upper() in self.game_clock:
             return True
         else:
             return False
+
 
 def main():
     """Generate a scoreboard of today's NHL games"""
 
     while True:
-        data = get_JSON('http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
+        data = get_JSON(
+            'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
         today = get_date(0)
 
         games = []
