@@ -39,3 +39,8 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Editor configs #
+##################
+.idea
+.vscode

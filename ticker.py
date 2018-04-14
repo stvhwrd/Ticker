@@ -44,27 +44,32 @@ class Game:
     def print_score(self, width):
         score = self.away_name + ' ' + self.away_score + \
             " - " + self.home_score + ' ' + self.home_name
-        print(score.center(width))
+        colour_print('blue', score.center(width))
 
     def print_matchup(self, width):
         matchup = self.away_locale + ' ' + self.away_name + \
             ' @ ' + self.home_locale + ' ' + self.home_name
-        print(matchup.center(width))
+        colour_print('red', matchup.center(width))
 
     def print_playoff_info(self, width):
         round = self.playoff_round
         series = self.playoff_series_id
-        playoff_info = playoffs_structure(round,series)
+        playoff_info = playoff_series_info(round, series)
         playoff_info += ' -- GAME ' + self.playoff_series_game
-        print(playoff_info.center(width))
+        colour_print('bright', playoff_info.center(width))
         print(''.center(width, '-'))
 
     def print_clock(self, width):
+        date = get_date(0)
+        if date.upper() in self.game_clock:
+            self.game_clock = 'TODAY'
         clock = self.game_clock + ' (' + self.status + ')'
-        print(clock.center(width))
+        colour_print('yellow', clock.center(width))
 
-    def is_today(self):
-        if 'TODAY' in self.game_clock or 'LIVE' in self.status:
+    def is_scheduled_for(self, date):
+        if 'TODAY' in self.game_clock or \
+            'LIVE' in self.status or \
+            date.upper() in self.game_clock:
             return True
         else:
             return False
@@ -74,20 +79,19 @@ def main():
 
     while True:
         data = get_JSON('http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
+        today = get_date(0)
 
-        # Instantiate a Game object for each game in JSON
         games = []
         for game_info in data['games']:
             game = Game(game_info)
-            if game.is_today():
+            if game.is_scheduled_for(today):
                 games.append(game)
 
         # Display current game information
         clear_screen()
         width = current_terminal_width()
-
+        print('\n')
         for game in games:
-            print('\n')
             if game.playoffs is True:
                 game.print_playoff_info(width)
             game.print_matchup(width)
@@ -95,7 +99,6 @@ def main():
             game.print_score(width)
             print('\n')
 
-        # Perform the sleep only if we're not currently testing
         if REFRESH_TIME > 0:
             time.sleep(REFRESH_TIME)
         else:
@@ -109,18 +112,17 @@ def get_date(delta):
         offset = datetime.timedelta(days=delta)
         date = date + offset
     date = date.strftime("%A %-m/%-d")
-
     return date
 
 
 def get_JSON(URL):
     "Request JSON from API server"
     response = requests.get(URL)
-    if 'nhl' in URL:
-        # Trim wrapper
+    if 'nhle' in URL:
         response = response.text.replace('loadScoreboard(', '')
         response = response.replace(')', '')
-    return json.loads(response)
+        response = json.loads(response)
+    return response
 
 
 def clear_screen():
@@ -155,14 +157,14 @@ def fix_name(team_name):
 
 def parse_arguments(args):
     """Process the arguments provided at runtime"""
-    args = args[1:]
-    for arg in args:
-        if arg == '--refresh' or arg == '-r':
-            global REFRESH_TIME
-            REFRESH_TIME = 30
-        else:
-            print ('Invalid flag supplied.  Please try again')
-            os._exit(1)
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-p", "--persist", help="live-update scores on persistent scoreboard", action="store_true")
+    args = parser.parse_args()
+    if args.persist is True:
+        global REFRESH_TIME
+        REFRESH_TIME = 30
+    return
 
 
 def current_terminal_width():
@@ -170,8 +172,8 @@ def current_terminal_width():
     return os.get_terminal_size().columns
 
 
-def playoffs_structure(round, series):
-    round_info = {
+def playoff_series_info(round, series):
+    title = {
         "01": {
             "1": "First Round: East #1 vs. Wildcard #2",
             "2": "First Round: Atlantic #2 vs. Atlantic #3",
@@ -193,15 +195,31 @@ def playoffs_structure(round, series):
             "2": "Western Conference Finals",
         },
         "04": {
-            "Stanley Cup Final": {
-                "1": "Western Conference Champion vs. Eastern Conference Champion"
+            "1": {
+                "1": "Stanley Cup Final"
             },
         }
     }
-    return round_info[round][series]
+    return title[round][series]
+
+
+def colour_print(cmd, text):
+    """Print coloured text"""
+    if cmd is 'bright':
+        text = Style.BRIGHT + text
+    elif cmd is 'red':
+        text = Fore.RED + text
+    elif cmd is 'green':
+        text = Fore.GREEN + text
+    elif cmd is 'blue':
+        text = Fore.BLUE + text
+    elif cmd is 'yellow':
+        text = Fore.YELLOW + text
+    print(text)
+
 
 if __name__ == '__main__':
-    init()  # colorama
+    init(autoreset=True)  # colorama
     parse_arguments(sys.argv)
     main()
 
