@@ -172,7 +172,7 @@ def current_terminal_width():
     return os.get_terminal_size().columns
 
 
-def playoff_series_info(round, series):
+def playoff_series_info(rnd, srs):
     title = {
         "01": {
             "1": "First Round: East #1 vs. Wildcard #2",
@@ -198,7 +198,7 @@ def playoff_series_info(round, series):
             "1": "Stanley Cup Final"
         }
     }
-    return title[round][series]
+    return title[rnd][srs]
 
 
 def colour_print(cmd, text):
