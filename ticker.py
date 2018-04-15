@@ -108,7 +108,7 @@ def main():
 
             game_summary += Fore.GREEN + game.get_matchup(width) + '\n' \
                             + Fore.YELLOW + game.get_clock(width) + '\n'
-            print(game.game_stage is not '')
+
             if game.game_stage is not '':
                 game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
             print(game_summary)
