@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """Show live scores of today's NHL games"""
-
 import argparse
 import datetime
 import json
@@ -16,58 +15,73 @@ REFRESH_TIME = -1
 
 class Game:
     """Game represents a scheduled NHL game"""
-
     def __init__(self, game_info):
-        self.game_id = str(game_info['id'])
-        self.game_clock = game_info['ts']
-        self.game_stage = game_info['tsc']
-        self.status = game_info['bs']
+        """Parse JSON to attributes"""
+        self.game_id     = str(game_info['id'])
+        self.game_clock  = game_info['ts']
+        self.game_stage  = game_info['tsc']
+        self.game_status      = game_info['bs']
         self.away_locale = fix_locale(game_info['atn'])
-        self.away_name = fix_name(game_info['atv'])
-        self.away_score = game_info['ats']
+        self.away_name   = fix_name(game_info['atv'])
+        self.away_score  = game_info['ats']
         self.away_result = game_info['atc']
         self.home_locale = fix_locale(game_info['htn'])
-        self.home_name = fix_name(game_info['htv'])
-        self.home_score = game_info['hts']
+        self.home_name   = fix_name(game_info['htv'])
+        self.home_score  = game_info['hts']
         self.home_result = game_info['htc']
 
         # Playoff-specific game information
         if '03' in self.game_id[4:6]:
-            self.playoffs = True
-            self.playoff_round = self.game_id[6:8]
-            self.playoff_series_id = self.game_id[8:9]
+            self.playoffs            = True
+            self.playoff_round       = self.game_id[6:8]
+            self.playoff_series_id   = self.game_id[8:9]
             self.playoff_series_game = self.game_id[9]
         else:
             self.playoffs = False
 
-    def print_score(self, width):
+
+    def get_scoreline(self, width):
+        """Get current score in butterfly format"""
         score = self.away_name + ' ' + self.away_score + \
             " - " + self.home_score + ' ' + self.home_name
-        colour_print('blue', score.center(width))
+        return score.center(width)
 
-    def print_matchup(self, width):
+
+    def get_matchup(self, width):
+        """Get full names of both teams"""
         matchup = self.away_locale + ' ' + self.away_name + \
             ' @ ' + self.home_locale + ' ' + self.home_name
-        colour_print('red', matchup.center(width))
+        return matchup.center(width)
 
-    def print_playoff_info(self, width):
-        playoff_info = playoff_series_info(
-            self.playoff_round, self.playoff_series_id)
+
+    def get_playoff_info(self, width):
+        """Get title of playoff series"""
+        playoff_info = playoff_series_info(self.playoff_round, self.playoff_series_id)
         playoff_info += ' -- GAME ' + self.playoff_series_game
-        colour_print('bright', playoff_info.center(width))
-        print(''.center(width, '-'))
+        return playoff_info.center(width)
 
-    def print_clock(self, width):
-        date = get_date(0)
-        if date.upper() in self.game_clock:
-            self.game_clock = 'TODAY'
-        clock = self.game_clock + ' (' + self.status + ')'
-        colour_print('yellow', clock.center(width))
+
+    def get_clock(self, width):
+        """Get game clock and status"""
+        clock = self.game_clock + ' (' + self.game_status + ')'
+        return clock.center(width)
+
 
     def is_scheduled_for(self, date):
-        if 'TODAY' in self.game_clock or \
-            'LIVE' in self.status or \
-                date.upper() in self.game_clock:
+        """True if this game is scheduled for the given date"""
+        if date.upper() in self.game_clock:
+            return True
+        else:
+            return False
+
+
+    def is_scheduled_for_today(self):
+        """True if this game is scheduled for today"""
+        date = get_date(0)
+        if date.upper() in self.game_clock or \
+            'TODAY' in self.game_clock or \
+            'LIVE' in self.game_status or \
+            'PROGRESS' in self.game_status:
             return True
         else:
             return False
@@ -75,29 +89,27 @@ class Game:
 
 def main():
     """Generate a scoreboard of today's NHL games"""
-
     while True:
-        data = get_JSON(
-            'http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
-        today = get_date(0)
-
+        data = get_JSON('http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
         games = []
         for game_info in data['games']:
             game = Game(game_info)
-            if game.is_scheduled_for(today):
+            if game.is_scheduled_for_today():
                 games.append(game)
 
-        # Display current game information
         clear_screen()
-        width = current_terminal_width()
-        print('\n')
+        width = get_terminal_width()
+        # Build and print game summaries
         for game in games:
+            game_summary = '\n'
             if game.playoffs is True:
-                game.print_playoff_info(width)
-            game.print_matchup(width)
-            game.print_clock(width)
-            game.print_score(width)
-            print('\n')
+                game_summary += Style.BRIGHT + game.get_playoff_info(width) + '\n' \
+                                + Style.RESET_ALL + (''.center(width, '-')) + '\n'
+
+            game_summary += Fore.GREEN + game.get_matchup(width) + '\n' \
+                            + Fore.YELLOW + game.get_clock(width) + '\n' \
+                            + Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
+            print(game_summary)
 
         if REFRESH_TIME > 0:
             time.sleep(REFRESH_TIME)
@@ -118,10 +130,11 @@ def get_date(delta):
 def get_JSON(URL):
     "Request JSON from API server"
     response = requests.get(URL)
+    # the live.nhle.com/ API has a wrapper, so remove it
     if 'nhle' in URL:
         response = response.text.replace('loadScoreboard(', '')
         response = response.replace(')', '')
-        response = json.loads(response)
+    response = json.loads(response)
     return response
 
 
@@ -155,24 +168,13 @@ def fix_name(team_name):
     return team_name.title()
 
 
-def parse_arguments(args):
-    """Process the arguments provided at runtime"""
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-p", "--persist", help="live-update scores on persistent scoreboard", action="store_true")
-    args = parser.parse_args()
-    if args.persist is True:
-        global REFRESH_TIME
-        REFRESH_TIME = 30
-    return
-
-
-def current_terminal_width():
+def get_terminal_width():
     """Get the current with of the terminal window"""
     return os.get_terminal_size().columns
 
 
 def playoff_series_info(rnd, srs):
+    """Get the title of current round/series"""
     title = {
         "01": {
             "1": "First Round: East #1 vs. Wildcard #2",
@@ -201,19 +203,16 @@ def playoff_series_info(rnd, srs):
     return title[rnd][srs]
 
 
-def colour_print(cmd, text):
-    """Print coloured text"""
-    if cmd is 'bright':
-        text = Style.BRIGHT + text
-    elif cmd is 'red':
-        text = Fore.RED + text
-    elif cmd is 'green':
-        text = Fore.GREEN + text
-    elif cmd is 'blue':
-        text = Fore.BLUE + text
-    elif cmd is 'yellow':
-        text = Fore.YELLOW + text
-    print(text)
+def parse_arguments(args):
+    """Process the arguments provided at runtime"""
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "-p", "--persist", help="live-update scores on persistent scoreboard", action="store_true")
+    args = parser.parse_args()
+    if args.persist is True:
+        global REFRESH_TIME
+        REFRESH_TIME = 30
+    return
 
 
 if __name__ == '__main__':
