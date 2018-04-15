@@ -7,7 +7,7 @@ A Python HTTP/JSON script to display the score of today's NHL hockey games.  Whe
 
 ## Requirements
 
-* [Python 3.5<sup>+</sup>](https://www.python.org/downloads/release/python-3)
+* [Python 3.6<sup>+</sup>](https://www.python.org/downloads/release/python-3)
     * `python3 --version`
 
 
