@@ -1,13 +1,13 @@
 language: python
 
 python:
-  - "3.6"
+  - "3.5"
 
 # command to install dependencies
 install:
   - "pip3 install -r requirements.txt"
 
-# # set permissions
+# set permissions
 before_script:
   - "pip3 install pyinstaller"
   - chmod a+x ./ticker.py
@@ -15,7 +15,7 @@ before_script:
 # command to run tests
 script:
   - python ticker.py
-  - pyinstall --onefile ticker.py && ./dist/ticker
+  - pyinstaller --onefile ticker.py && ./dist/ticker
 
 # # turn off email notifications
 # notifications:
