@@ -1,13 +1,13 @@
-[![Build Status](https://travis-ci.org/stvhwrd/Ticker.svg?branch=master)](https://travis-ci.org/stvhwrd/Ticker)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cafaa3346fe54f58924aa5a9ab6e4eca)](https://app.codacy.com/app/stvhwrd/Ticker?utm_source=github.com&utm_medium=referral&utm_content=stvhwrd/Ticker&utm_campaign=badger) [![Build Status](https://travis-ci.org/stvhwrd/Ticker.svg?branch=master)](https://travis-ci.org/stvhwrd/Ticker)
 
-A Python HTTP/JSON script to display the score of today's NHL hockey games.  When run in persistent mode, information is downloaded directly from the NHL website every 30 seconds.
+A Python HTTP/JSON script to display the score of today's NHL hockey games.  When run in persistent mode, information is downloaded directly from the NHL website every 20 seconds.
 
 <img src="https://github.com/stvhwrd/Ticker/blob/master/Screenshots/screenshot.png?raw=true" width="360">
 
 
 ## Requirements
 
-* [Python 3.5<sup>+</sup>](https://www.python.org/downloads/release/python-3)
+* [Python 3.6<sup>+</sup>](https://www.python.org/downloads/release/python-3)
     * `python3 --version`
 
 
@@ -39,9 +39,11 @@ Then run the script:
 
 This will run the script once, simply outputting the current scores.
 
-If you wish to run the script persistently and have the scores auto-update every 30 seconds, add the `--persist` flag:
+If you wish to run the script persistently and have the scores auto-update every 20 seconds, add the `--persist` flag:
 
 `ticker.py -p`
+
+To **quit**, press `Ctrl + C`
 
 ## Data Source
 
