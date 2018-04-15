@@ -6,17 +6,16 @@ python:
 # command to install dependencies
 install:
   - "pip3 install -r requirements.txt"
-  - "pip3 install pyinstaller"
 
 # # set permissions
-# before_script:
-#  - chmod a+x ./ticker.py
+before_script:
+  - "pip3 install pyinstaller"
+  - chmod a+x ./ticker.py
 
 # command to run tests
 script:
   - python ticker.py
-  - pyinstall --onefile ticker.py
-  - ./dist/ticker
+  - pyinstall --onefile ticker.py && ./dist/ticker
 
 # # turn off email notifications
 # notifications:
