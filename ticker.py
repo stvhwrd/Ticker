@@ -20,7 +20,7 @@ class Game:
         self.game_id     = str(game_info['id'])
         self.game_clock  = game_info['ts']
         self.game_stage  = game_info['tsc']
-        self.game_status      = game_info['bs']
+        self.game_status = game_info['bs']
         self.away_locale = fix_locale(game_info['atn'])
         self.away_name   = fix_name(game_info['atv'])
         self.away_score  = game_info['ats']
@@ -107,8 +107,10 @@ def main():
                                 + Style.RESET_ALL + (''.center(width, '-')) + '\n'
 
             game_summary += Fore.GREEN + game.get_matchup(width) + '\n' \
-                            + Fore.YELLOW + game.get_clock(width) + '\n' \
-                            + Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
+                            + Fore.YELLOW + game.get_clock(width) + '\n'
+            print(game.game_stage is not '')
+            if game.game_stage is not '':
+                game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
             print(game_summary)
 
         if REFRESH_TIME > 0:
