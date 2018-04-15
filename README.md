@@ -1,4 +1,5 @@
-# Ticker [![Build Status](https://travis-ci.org/stvhwrd/Ticker.svg?branch=master)](https://travis-ci.org/stvhwrd/Ticker) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2e6816fd06a94e68866e27e96306e916)](https://www.codacy.com/app/stvhwrd/Ticker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=stvhwrd/Ticker&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/cafaa3346fe54f58924aa5a9ab6e4eca)](https://app.codacy.com/app/stvhwrd/Ticker?utm_source=github.com&utm_medium=referral&utm_content=stvhwrd/Ticker&utm_campaign=badger) [![Build Status](https://travis-ci.org/stvhwrd/Ticker.svg?branch=master)](https://travis-ci.org/stvhwrd/Ticker)
+# Ticker
 
 A Python HTTP/JSON script to display the score of today's NHL hockey games.  When run in persistent mode, information is downloaded directly from the NHL website every 20 seconds.
 
