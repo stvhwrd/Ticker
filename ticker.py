@@ -74,14 +74,20 @@ class Game:
         else:
             return False
 
-
-    def is_scheduled_for_today(self):
-        """True if this game is scheduled for today"""
+    def normalize_today(self):
         date = get_date(0)
         if date.upper() in self.game_clock or \
             'TODAY' in self.game_clock or \
             'LIVE' in self.game_status or \
             'PROGRESS' in self.game_status:
+            self.game_clock = 'TODAY'
+        return
+
+
+    def is_scheduled_for_today(self):
+        """True if this game is scheduled for today"""
+        self.normalize_today()
+        if 'TODAY' in self.game_clock:
             return True
         else:
             return False
