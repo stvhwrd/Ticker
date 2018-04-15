@@ -1,17 +1,15 @@
 [![Build Status](https://travis-ci.org/stvhwrd/Ticker.svg?branch=master)](https://travis-ci.org/stvhwrd/Ticker)
 
-
-A Python web scraper built to display the score of current and recently finished NHL games.  The score is scraped directly from the NHL website every 30 seconds.
+A Python HTTP/JSON script to display the score of today's NHL hockey games.  When run in persistent mode, information is downloaded directly from the NHL website every 30 seconds.
 
 <img src="https://github.com/stvhwrd/Ticker/blob/master/Screenshots/screenshot.png?raw=true" width="360">
 
 
 ## Requirements
 
-* [Python 3.6<sup>+</sup>](https://www.python.org/downloads/release/python-3)
+* [Python 3.5<sup>+</sup>](https://www.python.org/downloads/release/python-3)
     * `python3 --version`
 
-> <sup>(It actually works just as well with Python 2, you'd just need to remove the `3` from all the commands provided in (a) this README and (b) `requirements.txt`)</sup>
 
 Additional requirements can be installed with [pip](https://pip.pypa.io/en/stable/) - there is a `requirements.txt` file provided that allows you to simply run `pip3 install -r requirements.txt`.  Included in this file are the following packages:
 
@@ -19,28 +17,38 @@ Additional requirements can be installed with [pip](https://pip.pypa.io/en/stabl
     * `pip3 install requests`
 * [Colorama](https://pypi.python.org/pypi/colorama)
     * `pip3 install colorama`
-* [Pytz](https://pypi.python.org/pypi/pytz)
-    * `pip3 install pytz`
+
 
 ## Usage
 
-Once you've ensured that your system meets the requirements, open a terminal window and execute
+```
+usage: ticker.py [-h] [-p]
 
-`python3 your/path/to/ticker.py`
+optional arguments:
+  -h, --help     show this help message and exit
+  -p, --persist  live-update scores on persistent scoreboard
+```
 
+Once you've installed the requirements (`pip3 install -r requirements.txt`), permit the script to execute:
+
+`chmod u+x ticker.py`
+
+Then run the script:
+
+`ticker.py`
+
+This will run the script once, simply outputting the current scores.
+
+If you wish to run the script persistently and have the scores auto-update every 30 seconds, add the `--persist` flag:
+
+`ticker.py -p`
 
 ## Data Source
 
-* NHL livescore JSON:
-   * http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp (old one)
-   * https://statsapi.web.nhl.com/api/v1/schedule (much richer "new" one, will move to this in future)
+* [NHL livescore JSON](http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp) (There is a [newer API](https://statsapi.web.nhl.com/api/v1/schedule), but I prefer the way this one is laid out for simple scoreboard use)
 
-In future, I plan to support other leagues, likely starting with MLB:
-* MLB livescore JSON:
-   * http://gd2.mlb.com/components/game/mlb/year_2015/month_08/day_02/master_scoreboard.json
-   
 ## License
 
-Copyright 2016 [John Freed](https://github.com/jtf323) and [Stevie Howard](https://github.com/stvhwrd).
+Copyright 2018 [Stevie Howard](https://github.com/stvhwrd).
 
 [MIT License](http://opensource.org/licenses/MIT)
