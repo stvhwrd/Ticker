@@ -96,33 +96,47 @@ class Game:
 def main():
     """Generate a scoreboard of today's NHL games"""
     while True:
-        data = get_JSON('http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
-        games = []
-        for game_info in data['games']:
-            game = Game(game_info)
-            if game.is_scheduled_for_today():
-                games.append(game)
+        try:
+            data = get_JSON('http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
+            games = []
+            for game_info in data['games']:
+                game = Game(game_info)
+                if game.is_scheduled_for_today():
+                    games.append(game)
 
-        clear_screen()
-        width = get_terminal_width()
-        # Build and print game summaries
-        for game in games:
-            game_summary = '\n'
-            if game.playoffs is True:
-                game_summary += Style.BRIGHT + game.get_playoff_info(width) + '\n' \
-                                + Style.RESET_ALL + (''.center(width, '-')) + '\n'
+            clear_screen()
+            width = get_terminal_width()
+            # Build and print game summaries
+            for game in games:
+                game_summary = '\n'
+                if game.playoffs is True:
+                    game_summary += Style.BRIGHT + game.get_playoff_info(width) + '\n' \
+                                    + Style.RESET_ALL + (''.center(width, '-')) + '\n'
 
-            game_summary += Fore.GREEN + game.get_matchup(width) + '\n' \
-                            + Fore.YELLOW + game.get_clock(width) + '\n'
+                game_summary += Fore.GREEN + game.get_matchup(width) + '\n' \
+                                + Fore.YELLOW + game.get_clock(width) + '\n'
 
-            if game.game_stage is not '':
-                game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
-            print(game_summary)
+                if game.game_stage is not '':
+                    game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
+                print(game_summary)
 
-        if REFRESH_TIME > 0:
-            time.sleep(REFRESH_TIME)
-        else:
+            if REFRESH_TIME > 0:
+                time.sleep(REFRESH_TIME)
+            else:
+                os._exit(0)
+        except KeyboardInterrupt:  # User quit
+            width = get_terminal_width()
+            msg = 'Keep your stick on the ice!'
+            print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
             os._exit(0)
+        except requests.exceptions.ConnectionError:
+            width = get_terminal_width()
+            msg = 'Network error - please check your Internet connection'
+            print(Style.BRIGHT + Fore.RED + '\n' + msg.center(width) + '\n')
+            os._exit(1)
+        except:
+            print('Unexpected error:', sys.exc_info()[0])
+            os._exit(1)
 
 
 def get_date(delta):
@@ -177,7 +191,7 @@ def fix_name(team_name):
 
 
 def get_terminal_width():
-    """Get the current with of the terminal window"""
+    """Get the current width of the terminal window"""
     return os.get_terminal_size().columns
 
 
@@ -219,7 +233,7 @@ def parse_arguments(args):
     args = parser.parse_args()
     if args.persist is True:
         global REFRESH_TIME
-        REFRESH_TIME = 30
+        REFRESH_TIME = 20
     return
 
 
