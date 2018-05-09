@@ -13,6 +13,9 @@ from colorama import init, Fore, Style
 # API purportedly updates every 60 seconds
 REFRESH_TIME = -1
 
+class ErrorQ(Exception):
+    pass
+
 class Game:
     """Game represents a scheduled NHL game"""
     def __init__(self, game_info):
@@ -120,10 +123,16 @@ def main():
                     game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
                 print(game_summary)
 
+            Quit = input('\n\n')
+
             if REFRESH_TIME > 0:
                 time.sleep(REFRESH_TIME)
             else:
                 os._exit(0)
+
+            if Quit == 'q':
+                raise ErrorQ
+
         except KeyboardInterrupt:  # User quit
             width = get_terminal_width()
             msg = 'Keep your stick on the ice!'
@@ -134,6 +143,11 @@ def main():
             msg = 'Network error - please check your Internet connection'
             print(Style.BRIGHT + Fore.RED + '\n' + msg.center(width) + '\n')
             os._exit(1)
+        except ErrorQ:
+            width = get_terminal_width()
+            msg = 'Keep your stick on the ice!'
+            print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
+            os._exit(0)
         except:
             print('Unexpected error:', sys.exc_info()[0])
             os._exit(1)
