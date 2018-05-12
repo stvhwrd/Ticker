@@ -123,11 +123,11 @@ def main():
                     game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
                 print(game_summary)
 
-            print('\n')
+            prompt = Fore.YELLOW + 'Enter q to quit! Action will take effect next update: ' + Style.RESET_ALL
+
             print(''.center(width, '-'))
-            Quit = input('\nEnter q to quit! Action will take effect next update: ')
             print('')
-            print(''.center(width, '-'))
+            Quit = input(prompt)
 
             if REFRESH_TIME > 0:
                 time.sleep(REFRESH_TIME)
@@ -140,6 +140,8 @@ def main():
         except KeyboardInterrupt:  # User quit
             width = get_terminal_width()
             msg = 'Keep your stick on the ice!'
+            print('\n')
+            print(''.center(width, '-'))
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
             os._exit(0)
         except requests.exceptions.ConnectionError:
@@ -149,6 +151,8 @@ def main():
             os._exit(1)
         except ErrorQ:
             width = get_terminal_width()
+            print('')
+            print(''.center(width, '-'))
             msg = 'Keep your stick on the ice!'
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
             os._exit(0)
