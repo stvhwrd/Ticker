@@ -123,7 +123,11 @@ def main():
                     game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
                 print(game_summary)
 
-            Quit = input('\n\nEnter q to quit! Action will take effect next update: ')
+            print('\n')
+            print(''.center(width, '-'))
+            Quit = input('\nEnter q to quit! Action will take effect next update: ')
+            print('')
+            print(''.center(width, '-'))
 
             if REFRESH_TIME > 0:
                 time.sleep(REFRESH_TIME)
