@@ -9,6 +9,7 @@ import requests
 import sys
 import time
 import _thread
+import keyboard
 from colorama import init, Fore, Style
 
 # API purportedly updates every 60 seconds
@@ -20,12 +21,11 @@ class ErrorQ(Exception):
 def Quit_app(threadName):
     try:
         while True:
-            Quit = input('')
-            if Quit is 'q':
+            if keyboard.is_pressed('q'):
                 raise ErrorQ
     except ErrorQ:
         width = get_terminal_width()
-        print('')
+        print('\n')
         print(''.center(width, '-'))
         msg = 'Keep your stick on the ice!'
         print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
