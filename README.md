@@ -18,8 +18,6 @@ Additional requirements can be installed with [pip](https://pip.pypa.io/en/stabl
     * `pip3 install requests`
 * [Colorama](https://pypi.python.org/pypi/colorama)
     * `pip3 install colorama`
-* [Keyboard](https://pypi.org/project/keyboard)
-    * `pip3 install keyboard`
 
 
 ## Usage
@@ -46,7 +44,7 @@ If you wish to run the script persistently and have the scores auto-update every
 
 `ticker.py -p`
 
-To **quit**, press `Ctrl + C`
+To **quit**, press `q` then `Enter`.
 
 ## Data Source
 
