@@ -8,6 +8,8 @@ import os
 import requests
 import sys
 import time
+import _thread
+import keyboard
 from colorama import init, Fore, Style
 
 # API purportedly updates every 60 seconds
@@ -15,6 +17,19 @@ REFRESH_TIME = -1
 
 class ErrorQ(Exception):
     pass
+
+def Quit_app(threadName):
+    try:
+        while True:
+            if keyboard.is_pressed('q'):
+                raise ErrorQ
+    except ErrorQ:
+        width = get_terminal_width()
+        print('\n')
+        print(''.center(width, '-'))
+        msg = 'Keep your stick on the ice!'
+        print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
+        os._exit(0)
 
 class Game:
     """Game represents a scheduled NHL game"""
@@ -97,6 +112,9 @@ class Game:
 
 
 def main():
+    """Spawn quit thread"""
+    _thread.start_new_thread(Quit_app, ("threadq",))
+
     """Generate a scoreboard of today's NHL games"""
     while True:
         try:
@@ -123,19 +141,10 @@ def main():
                     game_summary += Style.BRIGHT + Fore.BLUE + game.get_scoreline(width) + '\n'
                 print(game_summary)
 
-            prompt = Fore.YELLOW + 'Enter q to quit! Action will take effect next update: ' + Style.RESET_ALL
-
-            print(''.center(width, '-'))
-            print('')
-            Quit = input(prompt)
-
             if REFRESH_TIME > 0:
                 time.sleep(REFRESH_TIME)
             else:
                 os._exit(0)
-
-            if Quit == 'q':
-                raise ErrorQ
 
         except KeyboardInterrupt:  # User quit
             width = get_terminal_width()
@@ -149,13 +158,6 @@ def main():
             msg = 'Network error - please check your Internet connection'
             print(Style.BRIGHT + Fore.RED + '\n' + msg.center(width) + '\n')
             os._exit(1)
-        except ErrorQ:
-            width = get_terminal_width()
-            print('')
-            print(''.center(width, '-'))
-            msg = 'Keep your stick on the ice!'
-            print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
-            os._exit(0)
         except:
             print('Unexpected error:', sys.exc_info()[0])
             os._exit(1)
