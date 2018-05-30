@@ -23,7 +23,7 @@ Additional requirements can be installed with [pip](https://pip.pypa.io/en/stabl
 ## Usage
 
 ```
-usage: ticker.py [-h] [-p]
+usage: python3 ticker.py [-h] [-p]
 
 optional arguments:
   -h, --help     show this help message and exit
@@ -36,13 +36,13 @@ Once you've installed the requirements (`pip3 install -r requirements.txt`), per
 
 Then run the script:
 
-`ticker.py`
+`python3 ticker.py`
 
 This will run the script once, simply outputting the current scores.
 
 If you wish to run the script persistently and have the scores auto-update every 20 seconds, add the `--persist` flag:
 
-`ticker.py -p`
+`python3 ticker.py -p`
 
 To **quit**, press `q` then `Enter`.
 
