@@ -21,7 +21,7 @@ def Quit_app(threadName):
     try:
         while True:
             Quit = input('')
-            if Quit is 'q':
+            if Quit is not 0:
                 raise ErrorQ
     except ErrorQ:
         width = get_terminal_width()
@@ -168,7 +168,7 @@ def main():
             if message_flag is not 1:
                 width = get_terminal_width()
                 msg = 'Network error - please check your Internet connection'
-                print(Style.BRIGHT + Fore.RED + '\n' + msg.center(width) + '\n')
+                print(Style.BRIGHT + Fore.RED + '\n\n\n' + msg.center(width) + '\n')
                 message_flag = 1
             time.sleep(20)
             network_flag = 0
