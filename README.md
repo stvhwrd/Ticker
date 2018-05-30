@@ -44,7 +44,7 @@ If you wish to run the script persistently and have the scores auto-update every
 
 `python3 ticker.py -p`
 
-To **quit**, press `q` then `Enter`.
+To **quit**, press `Enter`. Alternatively, `Ctrl-C` works as well.
 
 ## Data Source
 
