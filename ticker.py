@@ -115,6 +115,9 @@ def main():
     """Spawn quit thread"""
     _thread.start_new_thread(Quit_app, ("threadq",))
 
+    network_flag = 0
+    message_flag = 0
+
     """Generate a scoreboard of today's NHL games"""
     while True:
         try:
@@ -142,6 +145,7 @@ def main():
                 print(game_summary)
 
             if REFRESH_TIME > 0:
+                message_flag = 0
                 time.sleep(REFRESH_TIME)
             else:
                 os._exit(0)
@@ -154,13 +158,20 @@ def main():
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
             os._exit(0)
         except requests.exceptions.ConnectionError:
-            width = get_terminal_width()
-            msg = 'Network error - please check your Internet connection'
-            print(Style.BRIGHT + Fore.RED + '\n' + msg.center(width) + '\n')
-            os._exit(1)
+            network_flag = 1
+            pass
         except:
             print('Unexpected error:', sys.exc_info()[0])
             os._exit(1)
+
+        if network_flag is 1:
+            if message_flag is not 1:
+                width = get_terminal_width()
+                msg = 'Network error - please check your Internet connection'
+                print(Style.BRIGHT + Fore.RED + '\n' + msg.center(width) + '\n')
+                message_flag = 1
+            time.sleep(20)
+            network_flag = 0
 
 
 def get_date(delta):
