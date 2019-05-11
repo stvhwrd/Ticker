@@ -48,7 +48,7 @@ To **quit**, press `Enter`. Alternatively, `Ctrl-C` works as well (but try to av
 
 ## Data Source
 
-* [NHL livescore JSON](http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp) (There is a [newer API](https://statsapi.web.nhl.com/api/v1/schedule), but I prefer the way this one is laid out for simple scoreboard use)
+* [NHL livescore JSON](http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp) (There is a [newer API](https://statsapi.web.nhl.com/api/v1/schedule), but I'm too lazy to change this fork over.)
 
 ## License
 
