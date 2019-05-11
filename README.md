@@ -46,6 +46,7 @@ If you wish to run the script persistently and have the scores auto-update every
 
 To **quit**, press `Enter`. Alternatively, `Ctrl-C` works as well (but try to avoid this if you can).
 
+
 **IMPORTANT:** All game times are displayed in PST.
 
 ## Data Source
