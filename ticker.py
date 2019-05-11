@@ -18,10 +18,12 @@ class ErrorQ(Exception):
     pass
 
 def Quit_app(threadName):
+    os.system("stty -echo")
     try:
         while True:
             Quit = input('')
             if Quit is not 0:
+                os.system("stty echo")
                 raise ErrorQ
     except ErrorQ:
         width = get_terminal_width()
@@ -95,17 +97,18 @@ class Game:
     def normalize_today(self):
         date = get_date(0)
         if date.upper() in self.game_clock or \
-            'TODAY' in self.game_clock or \
-            'LIVE' in self.game_status or \
-            'PROGRESS' in self.game_status:
+            'TODAY' in self.game_clock:
             self.game_clock = 'TODAY'
-        return
+            return True
+        elif 'LIVE' in self.game_clock or \
+            'PROGRESS' in self.game_clock:
+            return True
+        return False
 
 
     def is_scheduled_for_today(self):
         """True if this game is scheduled for today"""
-        self.normalize_today()
-        if 'TODAY' in self.game_clock:
+        if self.normalize_today():
             return True
         else:
             return False
@@ -151,8 +154,9 @@ def main():
                 os._exit(0)
 
         except KeyboardInterrupt:  # User quit
+            os.system("stty echo")
             width = get_terminal_width()
-            msg = 'Keep your stick on the ice!'
+            msg = 'Keep your stick on the ice! (Hey, I see you used CTRL-C. Did Ticker become unresponsive?)'
             print('\n')
             print(''.center(width, '-'))
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
