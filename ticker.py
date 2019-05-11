@@ -151,21 +151,23 @@ def main():
                 message_flag = 0
                 time.sleep(REFRESH_TIME)
             else:
+                os.system("stty echo")
                 os._exit(0)
 
         except KeyboardInterrupt:  # User quit
-            os.system("stty echo")
             width = get_terminal_width()
             msg = 'Keep your stick on the ice! (Hey, I see you used CTRL-C. Did Ticker become unresponsive?)'
             print('\n')
             print(''.center(width, '-'))
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
+            os.system("stty echo")
             os._exit(0)
         except requests.exceptions.ConnectionError:
             network_flag = 1
             pass
         except:
             print('Unexpected error:', sys.exc_info()[0])
+            os.system("stty echo")
             os._exit(1)
 
         if network_flag is 1:
