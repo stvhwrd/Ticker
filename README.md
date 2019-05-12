@@ -1,5 +1,4 @@
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ef9487b975fc4a048cbf6878b8297fe1)](https://www.codacy.com/app/scaryghosty/Ticker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scaryghosty/Ticker&amp;utm_campaign=Badge_Grade)
-# Ticker
+# Ticker [![Codacy Badge](https://api.codacy.com/project/badge/Grade/ef9487b975fc4a048cbf6878b8297fe1)](https://www.codacy.com/app/scaryghosty/Ticker?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=scaryghosty/Ticker&amp;utm_campaign=Badge_Grade)
 
 A Python HTTP/JSON script to display the score of today's NHL hockey games.  When run in persistent mode, information is downloaded directly from the NHL website every 20 seconds.
 
@@ -55,6 +54,6 @@ To **quit**, press `Enter`. Alternatively, `Ctrl-C` works as well (but try to av
 
 ## License
 
-Copyright 2019 [Greg Hennis](https://github.com/scaryghosty).
+Copyright 2019 [Greg Hennis](https://github.com/scaryghosty), 2015 [Stevie Howard](https://github.com/stvhwrd).
 
 [MIT License](http://opensource.org/licenses/MIT)
