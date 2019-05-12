@@ -96,12 +96,22 @@ class Game:
 
     def normalize_today(self):
         date = get_date(0)
+        
+        # must be today
         if date.upper() in self.game_clock or \
             'TODAY' in self.game_clock:
             self.game_clock = 'TODAY'
             return True
-        elif 'LIVE' in self.game_clock or \
-            'PROGRESS' in self.game_clock:
+        # or must be pre-game
+        elif 'PRE GAME' in self.game_clock:
+            self.game_clock = 'PRE-GAME'
+            return True
+        # or game must be live
+        elif 'LIVE' in self.game_status:
+            return True
+        # or game must be over
+        elif (date.upper() in self.game_clock or 'TODAY' in self.game_clock) and \
+            'FINAL' in self.game_status:
             return True
         return False
 
@@ -120,9 +130,11 @@ def main():
 
     network_flag = 0
     message_flag = 0
+    firstnet_flag = 0
 
     """Generate a scoreboard of today's NHL games"""
     while True:
+
         try:
             data = get_JSON('http://live.nhle.com/GameData/RegularSeasonScoreboardv3.jsonp')
             games = []
@@ -131,9 +143,15 @@ def main():
                 if game.is_scheduled_for_today():
                     games.append(game)
 
+            firstnet_flag = 1
             clear_screen()
             width = get_terminal_width()
             # Build and print game summaries
+
+            
+            if REFRESH_TIME > 0:
+                print(Style.BRIGHT + Fore.RED + '\n' + 'Press ENTER to quit\n'.center(width))
+
             for game in games:
                 game_summary = '\n'
                 if game.playoffs is True:
@@ -161,23 +179,44 @@ def main():
             print(''.center(width, '-'))
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
             os.system("stty echo")
-            os._exit(0)
+            os._exit(1)
         except requests.exceptions.ConnectionError:
+            if firstnet_flag is not 1:
+                clear_screen()
+                firstnet_flag = 1
             network_flag = 1
             pass
         except:
-            print('Unexpected error:', sys.exc_info()[0])
+            print('Unexpected error: ', sys.exc_info()[0])
             os.system("stty echo")
-            os._exit(1)
+            os._exit(3)
 
         if network_flag is 1:
             if message_flag is not 1:
                 width = get_terminal_width()
-                msg = 'Network error - please check your Internet connection'
+                msg = 'Network error: live updates cannot be fetched (press ENTER to quit)'
                 print(Style.BRIGHT + Fore.RED + '\n\n\n' + msg.center(width) + '\n')
                 message_flag = 1
-            time.sleep(20)
-            network_flag = 0
+
+            if REFRESH_TIME > 0:
+                try:
+                    time.sleep(REFRESH_TIME)
+                except KeyboardInterrupt:
+                    width = get_terminal_width()
+                    msg = 'Keep your stick on the ice! (Hey, I see you used CTRL-C. Did Ticker become unresponsive?)'
+                    print('\n')
+                    print(''.center(width, '-'))
+                    print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
+                    os.system("stty echo")
+                    os._exit(1)
+                except:
+                    print('Unexpected error: ', sys.exc_info()[0])
+                    os.system("stty echo")
+                    os._exit(3)
+                network_flag = 0
+            else:
+                os.system("stty echo")
+                os._exit(2)
 
 
 def get_date(delta):
@@ -211,10 +250,10 @@ def clear_screen():
 
 def fix_locale(team_locale):
     """Expand and fix place names from the values in JSON"""
-    if 'NY ' in team_locale:
+    if 'NY' in team_locale:
         team_locale = 'New York'
     elif 'Montr' in team_locale:
-        team_locale = u'Montréal'
+        team_locale = 'Montréal'
     return team_locale.title()
 
 
