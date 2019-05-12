@@ -54,6 +54,6 @@ To **quit**, press `Enter`. Alternatively, `Ctrl-C` works as well (but try to av
 
 ## License
 
-Copyright 2019 [Greg Hennis](https://github.com/scaryghosty), 2015 [Stevie Howard](https://github.com/stvhwrd).
+Copyright 2019 [Greg Hennis](https://github.com/scaryghosty), [Stevie Howard](https://github.com/stvhwrd).
 
 [MIT License](http://opensource.org/licenses/MIT)
