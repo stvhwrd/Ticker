@@ -109,10 +109,6 @@ class Game:
         # or game must be live
         elif 'LIVE' in self.game_status:
             return True
-        # or game must be over
-        elif (date.upper() in self.game_clock or 'TODAY' in self.game_clock) and \
-            'FINAL' in self.game_status:
-            return True
         return False
 
 
