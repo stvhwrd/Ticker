@@ -207,7 +207,7 @@ def main():
                     os._exit(1)
                 except:
                     print('Unexpected error: ', sys.exc_info()[0])
-                    #os.system("stty echo")
+                    os.system("stty echo")
                     os._exit(3)
                 network_flag = 0
             else:
