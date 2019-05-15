@@ -18,12 +18,12 @@ class ErrorQ(Exception):
     pass
 
 def Quit_app(threadName):
-    os.system("stty -echo")
+    #os.system("stty -echo")
     try:
         while True:
             Quit = input('')
             if Quit is not 0:
-                os.system("stty echo")
+                #os.system("stty echo")
                 raise ErrorQ
     except ErrorQ:
         width = get_terminal_width()
@@ -165,7 +165,7 @@ def main():
                 message_flag = 0
                 time.sleep(REFRESH_TIME)
             else:
-                os.system("stty echo")
+                #os.system("stty echo")
                 os._exit(0)
 
         except KeyboardInterrupt:  # User quit
@@ -174,7 +174,7 @@ def main():
             print('\n')
             print(''.center(width, '-'))
             print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
-            os.system("stty echo")
+            #os.system("stty echo")
             os._exit(1)
         except requests.exceptions.ConnectionError:
             if firstnet_flag is not 1:
@@ -184,7 +184,7 @@ def main():
             pass
         except:
             print('Unexpected error: ', sys.exc_info()[0])
-            os.system("stty echo")
+            #os.system("stty echo")
             os._exit(3)
 
         if network_flag is 1:
@@ -203,15 +203,15 @@ def main():
                     print('\n')
                     print(''.center(width, '-'))
                     print(Style.BRIGHT + Fore.GREEN + '\n' + msg.center(width) + '\n')
-                    os.system("stty echo")
+                    #os.system("stty echo")
                     os._exit(1)
                 except:
                     print('Unexpected error: ', sys.exc_info()[0])
-                    os.system("stty echo")
+                    #os.system("stty echo")
                     os._exit(3)
                 network_flag = 0
             else:
-                os.system("stty echo")
+                #os.system("stty echo")
                 os._exit(2)
 
 
