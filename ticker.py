@@ -7,12 +7,24 @@ import json
 import os
 import requests
 import sys
+import termios
+import tty
 import time
 import _thread
 from colorama import init, Fore, Style
 
 # API purportedly updates every 60 seconds
 REFRESH_TIME = -1
+
+def u_getch():
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(sys.stdin.fileno())
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
 
 class ErrorQ(Exception):
     pass
@@ -21,8 +33,8 @@ def Quit_app(threadName):
     os.system("stty -echo")
     try:
         while True:
-            Quit = input('')
-            if Quit is not 0:
+            Quit = u_getch()
+            if Quit == 'q':
                 os.system("stty echo")
                 raise ErrorQ
     except ErrorQ:
@@ -146,7 +158,7 @@ def main():
 
             
             if REFRESH_TIME > 0:
-                print(Style.BRIGHT + Fore.RED + '\n' + 'Press ENTER to quit\n'.center(width))
+                print(Style.BRIGHT + Fore.RED + '\n' + 'Press Q to quit\n'.center(width))
 
             for game in games:
                 game_summary = '\n'
